@@ -18,7 +18,7 @@ export const useSocket = () => {
     return client
   })())
 
-  const connect = (host = 'http://10.4.60.151') => {
+  const connect = (host = 'http://127.0.0.1') => {
     socket = io(`${host}:${SERVER_PORT}`, { query: { client: player.value } })
     socket.on(SocketEvent.SYNC_GAME, (g) => { game.value = g })
   }
