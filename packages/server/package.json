@@ -1,0 +1,17 @@
+{
+  "name": "@poor-guy-maker/server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "consola": "^2.15.3",
+    "socket.io": "^4.6.1"
+  }
+}
