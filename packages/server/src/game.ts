@@ -32,11 +32,9 @@ export class Game {
     this.order = shuffle(Object.keys(this.players))
   }
 
-  roll (player?: string) {
+  roll (player: string) {
     if (!this.isPlaying) { return 0 }
-    if (!player) { return 0 }
-
-    return this.players[player].roll(this, player)
+    return this.players[player]?.roll(this, player)
   }
 
   go (player: string, step: number) {

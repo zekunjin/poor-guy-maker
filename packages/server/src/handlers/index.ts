@@ -14,7 +14,7 @@ export const useStartGame = defineSocketHandler(SocketEvent.START_GAME, (_, game
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
-export const useRollDices = defineSocketHandler(SocketEvent.START_GAME, (_, game, player) => {
+export const useRollDices = defineSocketHandler(SocketEvent.ROLL_DICES, (_, game, player) => {
   game.roll(player)
   io.emit(SocketEvent.SYNC_GAME, game)
 })
