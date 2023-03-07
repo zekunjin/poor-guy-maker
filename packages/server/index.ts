@@ -1,6 +1,6 @@
 import { Server } from 'socket.io'
 import consola from 'consola'
-import { SERVER_PORT } from './consts'
+import { SERVER_PORT } from '@poor-guy-maker/shared'
 
 const io = new Server({ /* options */ })
 

@@ -2,8 +2,9 @@
   "name": "@poor-guy-maker/shared",
   "version": "0.0.1",
   "description": "",
-  "main": "index.ts",
+  "main": "dist/index.mjs",
   "scripts": {
+    "build": "tsup",
     "test": "vitest"
   },
   "author": "",

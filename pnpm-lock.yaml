@@ -47,9 +47,11 @@ importers:
 
   packages/server:
     specifiers:
+      '@poor-guy-maker/shared': workspace:^0.0.1
       consola: ^2.15.3
       socket.io: ^4.6.1
     dependencies:
+      '@poor-guy-maker/shared': link:../shared
       consola: 2.15.3
       socket.io: 4.6.1
 
