@@ -25,3 +25,7 @@ export const defineSocketHandler = (key: SocketEvent, event: (socket: Socket, ga
     event(socket, game, player)
   })
 }
+
+export const defineGurad = (setup: (game: Game, player: string) => Promise<boolean>) => (game: Game, player: string) => {
+  setup(game, player)
+}
