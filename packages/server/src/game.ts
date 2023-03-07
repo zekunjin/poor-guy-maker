@@ -26,6 +26,7 @@ export class Game {
   }
 
   start (player: string) {
+    if (this.isPlaying) { return }
     consola.success(`Game started by player ${player}.`)
     this.status = GameStatus.PLAYING
     this.order = shuffle(Object.keys(this.players))
@@ -41,6 +42,16 @@ export class Game {
   go (player: string, step: number) {
     const p = this.players[player]
     if (p) { p.go(step) }
+  }
+
+  end () {
+    this.status = GameStatus.END
+  }
+
+  restart () {
+    if (this.status !== GameStatus.END) { return }
+    this.status = GameStatus.PENDING
+    this.players = {}
   }
 
   get isPlaying () {

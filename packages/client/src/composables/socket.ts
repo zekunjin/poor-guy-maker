@@ -1,16 +1,26 @@
 import { ref } from 'vue'
-import { io } from 'socket.io-client'
-import { SocketEvent, SERVER_PORT } from '@poor-guy-maker/shared'
+import { nanoid } from 'nanoid'
+import { io, Socket } from 'socket.io-client'
+import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY } from '@poor-guy-maker/shared'
 
-let socket
+let socket: Socket
 
 export const useSocket = () => {
   const connected = ref(false)
-  const player = ref()
+  const game = ref({})
 
-  const connect = (host = 'http://127.0.0.1') => {
-    socket = io(`${host}:${SERVER_PORT}`)
-    socket.on(SocketEvent.GEN_PLAYER, (id) => { player.value = id })
+  const player = ref((() => {
+    const id = localStorage.getItem(CLIENT_ID_KEY)
+    if (id) { return id }
+
+    const client = nanoid()
+    if (!id) { localStorage.setItem(CLIENT_ID_KEY, client) }
+    return client
+  })())
+
+  const connect = (host = 'http://10.4.60.151') => {
+    socket = io(`${host}:${SERVER_PORT}`, { query: { client: player.value } })
+    socket.on(SocketEvent.SYNC_GAME, (g) => { game.value = g })
   }
 
   const start = () => {
@@ -26,12 +36,25 @@ export const useSocket = () => {
     socket.emit(SocketEvent.ROLL_DICES)
   }
 
+  const end = () => {
+    if (!socket) { return }
+    socket.emit(SocketEvent.END_GAME)
+  }
+
+  const restart = () => {
+    if (!socket) { return }
+    socket.emit(SocketEvent.RESTART_GAME)
+  }
+
   return {
     connected,
     player,
+    game,
     connect,
     join,
     start,
-    roll
+    roll,
+    end,
+    restart
   }
 }
