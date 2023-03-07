@@ -2,6 +2,7 @@ import consola from 'consola'
 import { GameStatus } from '@poor-guy-maker/shared'
 import { Player } from './player'
 import { Grid } from './grid'
+import { shuffle } from './_utils'
 
 export class Game {
   public players: Record<string, Player> = {}
@@ -27,6 +28,7 @@ export class Game {
   start (player: string) {
     consola.success(`Game start by player ${player}.`)
     this.status = GameStatus.PLAYING
+    this.order = shuffle(Object.keys(this.players))
   }
 
   roll (player?: string) {

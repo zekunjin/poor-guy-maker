@@ -18,20 +18,20 @@ io.on('connection', (socket) => {
   socket.on(SocketEvent.JOIN_GAME, () => {
     if (!game) { return }
     game.join(player)
-    socket.emit(SocketEvent.SYNC_GAME, game)
+    io.emit(SocketEvent.SYNC_GAME, game)
   })
 
   socket.on(SocketEvent.START_GAME, () => {
     if (!game) { return }
     game.start(player)
-    socket.emit(SocketEvent.SYNC_GAME, game)
+    io.emit(SocketEvent.SYNC_GAME, game)
   })
 
   socket.on(SocketEvent.ROLL_DICES, () => {
     if (!game) { return }
     const points = game.roll(player)
     if (points) { game.go(player, points) }
-    socket.emit(SocketEvent.SYNC_GAME, game)
+    io.emit(SocketEvent.SYNC_GAME, game)
   })
 })
 
