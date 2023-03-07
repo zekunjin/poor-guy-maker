@@ -36,6 +36,11 @@ export const useSocket = () => {
     socket.emit(SocketEvent.ROLL_DICES)
   }
 
+  const next = () => {
+    if (!socket) { return }
+    socket.emit(SocketEvent.NEXT_PLAYER)
+  }
+
   const end = () => {
     if (!socket) { return }
     socket.emit(SocketEvent.END_GAME)
@@ -54,6 +59,7 @@ export const useSocket = () => {
     join,
     start,
     roll,
+    next,
     end,
     restart
   }

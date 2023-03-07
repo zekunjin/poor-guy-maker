@@ -6,13 +6,25 @@ export class Player {
   public position = 0
   public dices: Dice[] = [new Dice(), new Dice()]
 
+  private _remainingTimes = 1
+
   roll (game: Game, player: string) {
+    if (!this._remainingTimes) { return }
+
     this.dices.forEach(dice => dice.roll(game, player))
+    this._remainingTimes = this._remainingTimes - 1
     return this.points
   }
 
-  go (step: number) {
+  move (step: number) {
     this.position = this.position + step
+  }
+
+  next () {
+    if (this._remainingTimes) { return false }
+
+    this._remainingTimes = 1
+    return true
   }
 
   get points () {

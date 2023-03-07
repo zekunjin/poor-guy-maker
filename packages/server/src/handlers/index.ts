@@ -29,10 +29,16 @@ export const useRestartGame = defineSocketHandler(SocketEvent.RESTART_GAME, (_, 
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
+export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (_, game) => {
+  game.next()
+  io.emit(SocketEvent.SYNC_GAME, game)
+})
+
 export const useHandlers = (socket: Socket, game: Game, player: string) => {
   useJoinGame(socket, game, player)
   useStartGame(socket, game, player)
   useRollDices(socket, game, player)
   useEndGame(socket, game, player)
   useRestartGame(socket, game, player)
+  useNextPlayer(socket, game, player)
 }

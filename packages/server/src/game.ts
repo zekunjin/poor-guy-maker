@@ -8,8 +8,10 @@ export class Game {
   public players: Record<string, Player> = {}
   public map: Grid[] = []
   public status = GameStatus.PENDING
-  public active?: Player
   public order: string[] = []
+  public rounds = 0
+
+  private _activeIndex = 0
 
   join (player?: string) {
     if (!player) { return }
@@ -27,22 +29,25 @@ export class Game {
 
   start (player: string) {
     if (this.isPlaying) { return }
-    if (!this.players.length) { return }
+    const keys = Object.keys(this.players)
+    if (!keys.length) { return }
     consola.success(`Game started by player ${player}.`)
     this.status = GameStatus.PLAYING
-    this.order = shuffle(Object.keys(this.players))
+    this.order = shuffle(keys)
   }
 
   roll (player: string) {
-    if (!this.isPlaying) { return 0 }
+    if (!this.isPlaying) { return }
+    if (!this.isActive(player)) { return }
+
     consola.success(`Player ${player} roll dices.`)
-    return this.players[player]?.roll(this, player)
+    this.players[player]?.roll(this, player)
   }
 
-  go (player: string, steps: number) {
+  move (player: string, steps: number) {
     const p = this.players[player]
     if (!p) { return }
-    p.go(steps)
+    p.move(steps)
     consola.success(`Player ${player} move ${steps} steps.`)
   }
 
@@ -55,10 +60,32 @@ export class Game {
     if (this.status !== GameStatus.END) { return }
     this.status = GameStatus.PENDING
     this.players = {}
+    this._activeIndex = 0
     consola.success(`Game restarted by player ${player}.`)
+  }
+
+  next () {
+    if (!this.isActive) { return }
+    if (!this.active.next()) { return }
+
+    this._activeIndex = this._activeIndex + 1
+
+    if (this._activeIndex > this.order.length - 1) {
+      this._activeIndex = 0
+      this.rounds = this.rounds + 1
+    }
+  }
+
+  isActive (player: string) {
+    return this.order[this._activeIndex] === player
   }
 
   get isPlaying () {
     return this.status === GameStatus.PLAYING
+  }
+
+  get active () {
+    const tk = this.order[this._activeIndex]
+    return this.players[tk]
   }
 }

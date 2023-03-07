@@ -8,6 +8,6 @@ export class Dice {
     const p = game.players[player]
     if (!p) { return }
     this.points = randomInt(1, 6)
-    p.go(this.points)
+    p.move(this.points)
   }
 }

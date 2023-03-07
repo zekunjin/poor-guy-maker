@@ -5,7 +5,8 @@ export enum SocketEvent {
   SYNC_GAME = 'sync game',
   GEN_PLAYER = 'gen player',
   END_GAME = 'end game',
-  RESTART_GAME = 'restart game'
+  RESTART_GAME = 'restart game',
+  NEXT_PLAYER = 'next player'
 }
 
 export enum GameStatus {

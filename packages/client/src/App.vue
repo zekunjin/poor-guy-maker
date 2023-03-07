@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSocket } from './composables/socket'
 
-const { game, player, connect, join, start, end, restart, roll } = useSocket()
+const { game, player, connect, join, start, end, restart, roll, next } = useSocket()
 
 connect()
 </script>
@@ -30,6 +30,10 @@ connect()
 
     <button @click="roll">
       roll
+    </button>
+
+    <button @click="next">
+      next
     </button>
 
     <div>{{ game }}</div>
