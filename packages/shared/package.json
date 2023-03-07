@@ -1,0 +1,11 @@
+{
+  "name": "@poor-guy-maker/shared",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "vitest"
+  },
+  "author": "",
+  "license": "ISC"
+}
