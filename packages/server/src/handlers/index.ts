@@ -19,12 +19,12 @@ export const useRollDices = defineSocketHandler(SocketEvent.START_GAME, (_, game
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
-export const useEndGame = defineSocketHandler(SocketEvent.END_GAME, (_, game, player) => {
-  game.restart()
+export const useEndGame = defineSocketHandler(SocketEvent.END_GAME, (_, game) => {
+  game.end()
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
-export const useRestartGame = defineSocketHandler(SocketEvent.END_GAME, (_, game, player) => {
+export const useRestartGame = defineSocketHandler(SocketEvent.RESTART_GAME, (_, game) => {
   game.restart()
   io.emit(SocketEvent.SYNC_GAME, game)
 })
