@@ -8,16 +8,20 @@ export const useSocket = () => {
   const connected = ref(false)
   const player = ref()
 
-  const connect = () => {
-    socket = io(`http://127.0.0.1:${SERVER_PORT}`)
-    socket.on('connect', () => { player.value = socket.id })
+  const connect = (host = 'http://127.0.0.1') => {
+    socket = io(`${host}:${SERVER_PORT}`)
+    socket.on(SocketEvent.GEN_PLAYER, (id) => { player.value = id })
+  }
+
+  const start = () => {
+    socket.emit(SocketEvent.START_GAME)
   }
 
   const join = () => {
-    socket.on(SocketEvent.JOIN_GAME, player.value)
+    socket.emit(SocketEvent.JOIN_GAME)
   }
 
-  const rollDice = () => {
+  const roll = () => {
     if (!socket) { return }
     socket.emit(SocketEvent.ROLL_DICES)
   }
@@ -27,6 +31,7 @@ export const useSocket = () => {
     player,
     connect,
     join,
-    rollDice
+    start,
+    roll
   }
 }

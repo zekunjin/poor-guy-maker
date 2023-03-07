@@ -3,27 +3,38 @@ import consola from 'consola'
 import { SERVER_PORT, SocketEvent } from '@poor-guy-maker/shared'
 import { Game } from './src/game'
 
-let game: Game
+const game = new Game()
 
 const io = new Server({ cors: { origin: '*' } })
 
 io.on('connection', (socket) => {
-  consola.success('Connect complete.')
+  const { origin: player } = socket.handshake.headers
 
-  socket.on(SocketEvent.START_GAME, () => { game = new Game() })
+  if (!player) { return }
 
-  socket.on(SocketEvent.JOIN_GAME, (id: string) => {
+  socket.emit(SocketEvent.GEN_PLAYER, player)
+  consola.success(`Player ${player} connected.`)
+
+  socket.on(SocketEvent.JOIN_GAME, () => {
     if (!game) { return }
-    game.join(id)
+    game.join(player)
+    socket.emit(SocketEvent.SYNC_GAME, game)
+  })
+
+  socket.on(SocketEvent.START_GAME, () => {
+    if (!game) { return }
+    game.start(player)
+    socket.emit(SocketEvent.SYNC_GAME, game)
   })
 
   socket.on(SocketEvent.ROLL_DICES, () => {
     if (!game) { return }
-
-    game.roll()
-    socket.broadcast.emit(SocketEvent.ROLL_DICES, game.points)
+    const points = game.roll(player)
+    if (points) { game.go(player, points) }
+    socket.emit(SocketEvent.SYNC_GAME, game)
   })
 })
 
 io.listen(SERVER_PORT)
+
 consola.success(`Running: http://127.0.0.1:${SERVER_PORT}`)
