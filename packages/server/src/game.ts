@@ -27,6 +27,7 @@ export class Game {
 
   start (player: string) {
     if (this.isPlaying) { return }
+    if (!this.players.length) { return }
     consola.success(`Game started by player ${player}.`)
     this.status = GameStatus.PLAYING
     this.order = shuffle(Object.keys(this.players))
@@ -34,22 +35,27 @@ export class Game {
 
   roll (player: string) {
     if (!this.isPlaying) { return 0 }
+    consola.success(`Player ${player} roll dices.`)
     return this.players[player]?.roll(this, player)
   }
 
-  go (player: string, step: number) {
+  go (player: string, steps: number) {
     const p = this.players[player]
-    if (p) { p.go(step) }
+    if (!p) { return }
+    p.go(steps)
+    consola.success(`Player ${player} move ${steps} steps.`)
   }
 
-  end () {
+  end (player: string) {
     this.status = GameStatus.END
+    consola.success(`Game ended by player ${player}.`)
   }
 
-  restart () {
+  restart (player: string) {
     if (this.status !== GameStatus.END) { return }
     this.status = GameStatus.PENDING
     this.players = {}
+    consola.success(`Game restarted by player ${player}.`)
   }
 
   get isPlaying () {
