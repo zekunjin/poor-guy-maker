@@ -1,11 +1,16 @@
 import { Server } from 'socket.io'
 import consola from 'consola'
-import { SERVER_PORT } from '@poor-guy-maker/shared'
+import { Action, SERVER_PORT } from '@poor-guy-maker/shared'
+import { randomInt } from './utils'
 
-const io = new Server({ /* options */ })
+const io = new Server({ cors: { origin: '*' } })
 
 io.on('connection', (socket) => {
-  consola.success('Socket io connect complete.')
+  consola.success('Client connect complete.')
+
+  socket.on(Action.ROLL_DICE, () => {
+    console.log('dice: ' + randomInt(1, 6))
+  })
 })
 
 io.listen(SERVER_PORT)

@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { io } from 'socket.io-client'
+import { useSocket } from './composables/socket'
+
+const { connect, rollDice } = useSocket()
+
+connect()
 </script>
 
 <template>
-  <div>poor guy maker client</div>
+  <div>
+    <div>poor guy maker client</div>
+    <button @click="rollDice">
+      roll
+    </button>
+  </div>
 </template>

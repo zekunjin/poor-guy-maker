@@ -4,6 +4,8 @@
   "scripts": {
     "dev:client": "pnpm -C packages/client dev",
     "dev:server": "pnpm -C packages/server dev",
+    "dev:shared": "pnpm -C packages/shared dev",
+    "build:shared": "pnpm -C packages/shared build",
     "test": "vitest"
   },
   "repository": {
