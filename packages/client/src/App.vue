@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSocket } from './composables/socket'
 
-const { connect, rollDice } = useSocket()
+const { connect, join, rollDice } = useSocket()
 
 connect()
 </script>
@@ -9,6 +9,9 @@ connect()
 <template>
   <div>
     <div>poor guy maker client</div>
+    <button @click="join">
+      join
+    </button>
     <button @click="rollDice">
       roll
     </button>

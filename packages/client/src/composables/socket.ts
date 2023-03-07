@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { io } from 'socket.io-client'
-import { Action, SERVER_PORT } from '@poor-guy-maker/shared'
+import { SocketEvent, SERVER_PORT } from '@poor-guy-maker/shared'
 
 let socket
 
@@ -10,16 +10,23 @@ export const useSocket = () => {
 
   const connect = () => {
     socket = io(`http://127.0.0.1:${SERVER_PORT}`)
+    socket.on('connect', () => { player.value = socket.id })
+  }
+
+  const join = () => {
+    socket.on(SocketEvent.JOIN_GAME, player.value)
   }
 
   const rollDice = () => {
-    socket && socket.emit(Action.ROLL_DICE)
+    if (!socket) { return }
+    socket.emit(SocketEvent.ROLL_DICES)
   }
 
   return {
     connected,
     player,
     connect,
+    join,
     rollDice
   }
 }

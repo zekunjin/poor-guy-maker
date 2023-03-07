@@ -6,7 +6,6 @@ export default defineConfig(options => ({
   sourcemap: true,
   clean: true,
   treeshake: true,
-  dts: true,
   format: ['esm'],
   minify: !options.watch
 }))
