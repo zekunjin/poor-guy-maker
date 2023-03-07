@@ -1,7 +1,7 @@
 import consola from 'consola'
 import { GameStatus } from '@poor-guy-maker/shared'
-import { Player } from './player'
-import { Grid } from './grid'
+import { Player } from './players/default'
+import { Grid } from './grids/grid'
 import { shuffle } from './_utils'
 
 export class Game {
@@ -26,7 +26,7 @@ export class Game {
   }
 
   start (player: string) {
-    consola.success(`Game start by player ${player}.`)
+    consola.success(`Game started by player ${player}.`)
     this.status = GameStatus.PLAYING
     this.order = shuffle(Object.keys(this.players))
   }
@@ -35,7 +35,7 @@ export class Game {
     if (!this.isPlaying) { return 0 }
     if (!player) { return 0 }
 
-    return this.players[player].roll()
+    return this.players[player].roll(this, player)
   }
 
   go (player: string, step: number) {

@@ -29,8 +29,7 @@ io.on('connection', (socket) => {
 
   socket.on(SocketEvent.ROLL_DICES, () => {
     if (!game) { return }
-    const points = game.roll(player)
-    if (points) { game.go(player, points) }
+    game.roll(player)
     io.emit(SocketEvent.SYNC_GAME, game)
   })
 })
