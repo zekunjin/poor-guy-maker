@@ -1,6 +1,5 @@
 import consola from 'consola'
 import { GameStatus } from '@poor-guy-maker/shared'
-import flatten from 'lodash.flatten'
 import { Player } from './players/default'
 import { shuffle } from './_utils'
 import { China } from './boards/china'

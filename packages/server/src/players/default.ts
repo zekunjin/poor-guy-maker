@@ -44,6 +44,7 @@ export class Player {
     if (!t) { return }
     t.assets += num
     this.assets -= num
+    consola.success(`Player ${to} received ${num} rents.`)
   }
 
   buy (_: Game, player: string) {
