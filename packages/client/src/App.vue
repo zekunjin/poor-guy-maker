@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useSocket } from './composables/socket'
 
 const { game, player, actions, connect, join, leave, start, pause, restart, roll, next, action } = useSocket()
@@ -52,20 +53,22 @@ connect()
       </button>
     </div>
 
+    <div class="flex">
+      <div
+        v-for="item in game.board?.grids"
+        :key="item.tk"
+        class="border- border-solid border-black py-4 flex flex-col items-center justify-center w-48"
+      >
+        <div />
+
+        <div>{{ item.name }}</div>
+
+        <div v-if="item.owner">
+          owner: {{ item.owner }}
+        </div>
+      </div>
+    </div>
+
     <pre>{{ JSON.stringify(game, null, '\t') }}</pre>
   </div>
 </template>
-
-<style scoped>
-.flex {
-  display: flex;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.gap-2 {
-  gap: 8px;
-}
-</style>

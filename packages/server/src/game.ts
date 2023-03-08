@@ -44,8 +44,13 @@ export class Game {
     const keys = Object.keys(this.players)
     if (!keys.length) { return }
     consola.success(`Game started by player ${player}.`)
+
     this.status = GameStatus.PLAYING
     this.order = shuffle(keys)
+
+    Object.values(this.players).forEach((player) => {
+      player.at = this.board.grids[0]
+    })
   }
 
   roll (player: string) {
