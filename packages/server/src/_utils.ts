@@ -19,10 +19,10 @@ export const shuffle = (array: any[]) => {
   return array
 }
 
-export const defineSocketHandler = (key: SocketEvent, event: (socket: Socket, game: Game, player: string) => any) => (socket: Socket, game: Game, player: string) => {
-  socket.on(key, () => {
+export const defineSocketHandler = (key: SocketEvent, event: (socket: Socket, game: Game, player: string, params: any) => any) => (socket: Socket, game: Game, player: string) => {
+  socket.on(key, (params: any) => {
     if (!game) { return }
-    event(socket, game, player)
+    event(socket, game, player, params)
   })
 }
 

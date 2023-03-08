@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { PlayerAction } from '@poor-guy-maker/shared'
 import { useSocket } from './composables/socket'
 
-const { game, player, connect, join, start, end, restart, roll, next } = useSocket()
+const { game, player, connect, join, start, pause, restart, roll, next, action } = useSocket()
 
 connect()
 </script>
@@ -20,8 +21,8 @@ connect()
       start
     </button>
 
-    <button @click="end">
-      end
+    <button @click="pause">
+      pause
     </button>
 
     <button @click="restart">
@@ -32,10 +33,22 @@ connect()
       roll
     </button>
 
+    <button @click="action(PlayerAction.BUY)">
+      buy
+    </button>
+
+    <button @click="action(PlayerAction.AUCTION)">
+      auction
+    </button>
+
+    <button @click="action(PlayerAction.BID)">
+      bid
+    </button>
+
     <button @click="next">
       next
     </button>
 
-    <div>{{ game }}</div>
+    <pre>{{ JSON.stringify(game, null, '\t') }}</pre>
   </div>
 </template>

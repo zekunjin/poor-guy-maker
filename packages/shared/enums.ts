@@ -4,13 +4,20 @@ export enum SocketEvent {
   JOIN_GAME = 'join game',
   SYNC_GAME = 'sync game',
   GEN_PLAYER = 'gen player',
-  END_GAME = 'end game',
+  PAUSE_GAME = 'pause game',
   RESTART_GAME = 'restart game',
-  NEXT_PLAYER = 'next player'
+  NEXT_PLAYER = 'next player',
+  SELECT_ACTION = 'select action'
 }
 
 export enum GameStatus {
   PENDING,
   PLAYING,
-  END
+  PAUSE
+}
+
+export enum PlayerAction {
+  BUY = 'buy',
+  AUCTION = 'auction',
+  BID = 'bid'
 }

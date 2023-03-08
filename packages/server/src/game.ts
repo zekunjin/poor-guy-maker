@@ -1,15 +1,25 @@
 import consola from 'consola'
 import { GameStatus } from '@poor-guy-maker/shared'
+import flatten from 'lodash.flatten'
 import { Player } from './players/default'
 import { Grid } from './grids/grid'
 import { shuffle } from './_utils'
+import { Block } from './grids/blocks'
+import { Go } from './grids/go'
 
 export class Game {
   public players: Record<string, Player> = {}
-  public map: Grid[] = []
   public status = GameStatus.PENDING
   public order: string[] = []
   public rounds = 0
+
+  public map: Grid[][] = [
+    [new Go()],
+    [new Block('Shanghai', 500), new Block('Beijing', 500)],
+    [new Block('Guangzhou', 450), new Block('Shenzheng', 450)],
+    [new Block('Suzhou', 400), new Block('Hangzhou', 400)],
+    [new Block('Nanchang', 350), new Block('Jiujiang', 350)]
+  ]
 
   private _activeIndex = 0
 
@@ -44,22 +54,16 @@ export class Game {
     this.players[player]?.roll(this, player)
   }
 
-  move (player: string, steps: number) {
-    const p = this.players[player]
-    if (!p) { return }
-    p.move(steps)
-    consola.success(`Player ${player} move ${steps} steps.`)
-  }
-
-  end (player: string) {
-    this.status = GameStatus.END
+  pause (player: string) {
+    this.status = GameStatus.PAUSE
     consola.success(`Game ended by player ${player}.`)
   }
 
   restart (player: string) {
-    if (this.status !== GameStatus.END) { return }
+    if (this.status !== GameStatus.PAUSE) { return }
     this.status = GameStatus.PENDING
     this.players = {}
+    this.rounds = 0
     this._activeIndex = 0
     consola.success(`Game restarted by player ${player}.`)
   }
@@ -87,5 +91,9 @@ export class Game {
   get active () {
     const tk = this.order[this._activeIndex]
     return this.players[tk]
+  }
+
+  get grids () {
+    return flatten(this.map)
   }
 }

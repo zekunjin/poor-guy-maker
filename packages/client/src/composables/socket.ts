@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { io, Socket } from 'socket.io-client'
-import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY } from '@poor-guy-maker/shared'
+import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction } from '@poor-guy-maker/shared'
 
 let socket: Socket
 
@@ -41,14 +41,19 @@ export const useSocket = () => {
     socket.emit(SocketEvent.NEXT_PLAYER)
   }
 
-  const end = () => {
+  const pause = () => {
     if (!socket) { return }
-    socket.emit(SocketEvent.END_GAME)
+    socket.emit(SocketEvent.PAUSE_GAME)
   }
 
   const restart = () => {
     if (!socket) { return }
     socket.emit(SocketEvent.RESTART_GAME)
+  }
+
+  const action = (a: PlayerAction) => {
+    if (!socket) { return }
+    socket.emit(SocketEvent.SELECT_ACTION, a)
   }
 
   return {
@@ -60,7 +65,8 @@ export const useSocket = () => {
     start,
     roll,
     next,
-    end,
-    restart
+    pause,
+    restart,
+    action
   }
 }

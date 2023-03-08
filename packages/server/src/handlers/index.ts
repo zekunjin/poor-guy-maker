@@ -1,5 +1,6 @@
-import { SocketEvent } from 'packages/shared'
+import { PlayerAction, SocketEvent } from 'packages/shared'
 import { Socket } from 'socket.io'
+import consola from 'consola'
 import { defineSocketHandler } from '../_utils'
 import { io } from '../..'
 import { Game } from '../game'
@@ -19,8 +20,8 @@ export const useRollDices = defineSocketHandler(SocketEvent.ROLL_DICES, (_, game
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
-export const useEndGame = defineSocketHandler(SocketEvent.END_GAME, (_, game, player) => {
-  game.end(player)
+export const useEndGame = defineSocketHandler(SocketEvent.PAUSE_GAME, (_, game, player) => {
+  game.pause(player)
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
@@ -34,6 +35,13 @@ export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (_, ga
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
+export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (_, game, player, params: PlayerAction) => {
+  const p = game.players[player] as any
+  if (!p?.[params]) { consola.error(`Do not have action named ${params}`) }
+  p[params]()
+  io.emit(SocketEvent.SYNC_GAME, game)
+})
+
 export const useHandlers = (socket: Socket, game: Game, player: string) => {
   useJoinGame(socket, game, player)
   useStartGame(socket, game, player)
@@ -41,4 +49,5 @@ export const useHandlers = (socket: Socket, game: Game, player: string) => {
   useEndGame(socket, game, player)
   useRestartGame(socket, game, player)
   useNextPlayer(socket, game, player)
+  useSelectAction(socket, game, player)
 }
