@@ -12,6 +12,8 @@ connect()
 
     <div>player: {{ player }}</div>
 
+    <div>game actions</div>
+
     <div class="flex gap-2">
       <button @click="join">
         join
@@ -32,13 +34,9 @@ connect()
       <button @click="restart">
         restart
       </button>
-
-      <button @click="next">
-        next
-      </button>
     </div>
 
-    <div>Actions</div>
+    <div>player actions</div>
 
     <div class="flex gap-2">
       <button @click="roll">
@@ -47,6 +45,10 @@ connect()
 
       <button v-for="item in actions" :key="item" @click="action(item)">
         {{ item }}
+      </button>
+
+      <button @click="next">
+        next
       </button>
     </div>
 

@@ -53,11 +53,13 @@ importers:
       '@types/lodash.flatten': ^4.4.7
       consola: ^2.15.3
       lodash.flatten: ^4.4.0
+      nanoid: ^4.0.1
       socket.io: ^4.6.1
     dependencies:
       '@poor-guy-maker/shared': link:../shared
       consola: 2.15.3
       lodash.flatten: 4.4.0
+      nanoid: 4.0.1
       socket.io: 4.6.1
     devDependencies:
       '@types/lodash.flatten': 4.4.7

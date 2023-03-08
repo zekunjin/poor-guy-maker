@@ -2,10 +2,8 @@ import consola from 'consola'
 import { GameStatus } from '@poor-guy-maker/shared'
 import flatten from 'lodash.flatten'
 import { Player } from './players/default'
-import { Grid } from './grids/grid'
 import { shuffle } from './_utils'
-import { Block } from './grids/blocks'
-import { Go } from './grids/go'
+import { China } from './boards/china'
 
 export class Game {
   public players: Record<string, Player> = {}
@@ -13,13 +11,7 @@ export class Game {
   public order: string[] = []
   public rounds = 0
 
-  public map: Grid[][] = [
-    [new Go()],
-    [new Block('Shanghai', 500), new Block('Beijing', 500)],
-    [new Block('Guangzhou', 450), new Block('Shenzheng', 450)],
-    [new Block('Suzhou', 400), new Block('Hangzhou', 400)],
-    [new Block('Nanchang', 350), new Block('Jiujiang', 350)]
-  ]
+  public board = new China()
 
   private _activeIndex = 0
 
@@ -102,9 +94,5 @@ export class Game {
   get active () {
     const tk = this.order[this._activeIndex]
     return this.players[tk]
-  }
-
-  get grids () {
-    return flatten(this.map)
   }
 }

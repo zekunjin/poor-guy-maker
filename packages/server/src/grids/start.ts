@@ -1,9 +1,9 @@
 import { Game } from '../game'
 import { Grid } from './grid'
 
-export class Go extends Grid {
+export class Start extends Grid {
   constructor () {
-    super('go')
+    super('Start')
   }
 
   event (game: Game): void {

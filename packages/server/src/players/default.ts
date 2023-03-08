@@ -24,7 +24,7 @@ export class Player {
 
   afterRoll (game: Game, player: string, steps: number) {
     this.move(player, steps)
-    game.grids[this.position % game.grids.length]?.event(game, player)
+    game.board.grids[this.position % game.board.grids.length]?.event(game)
   }
 
   move (player: string, steps: number) {
@@ -39,6 +39,13 @@ export class Player {
     return true
   }
 
+  transfer (game: Game, to: string, num: number) {
+    const t = game.players?.[to]
+    if (!t) { return }
+    t.assets += num
+    this.assets -= num
+  }
+
   buy (_: Game, player: string) {
     if (!isBlock(this.at)) { return }
     if (this.at.owner) { return }
@@ -47,7 +54,7 @@ export class Player {
     this.assets = this.assets - this.at.price
     this.at.owner = player
 
-    consola.success(`Player ${player} bought block ${this.at.name}`)
+    consola.success(`Player ${player} bought the block ${this.at.name}`)
   }
 
   auction (_: Game, grid: Grid) { }
