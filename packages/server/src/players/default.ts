@@ -23,9 +23,13 @@ export class Player {
   }
 
   afterRoll (game: Game, player: string, steps: number) {
+    this.move(player, steps)
+    game.grids[this.position % game.grids.length]?.event(game, player)
+  }
+
+  move (player: string, steps: number) {
     this.position = this.position + steps
     consola.success(`Player ${player} moved ${steps} steps`)
-    game.grids[this.position % game.grids.length]?.event(game, player)
   }
 
   next () {
@@ -35,19 +39,20 @@ export class Player {
     return true
   }
 
-  buy (_: Game) {
+  buy (_: Game, player: string) {
     if (!isBlock(this.at)) { return }
+    if (this.at.owner) { return }
     if (this.at.price > this.assets) { return }
+
     this.assets = this.assets - this.at.price
+    this.at.owner = player
+
+    consola.success(`Player ${player} bought block ${this.at.name}`)
   }
 
   auction (_: Game, grid: Grid) { }
 
   bid (_: Game, grid: Grid) {}
-
-  action (_: Game, grid: Grid) {
-    this.at = grid
-  }
 
   get points () {
     return this.dices.reduce((acc, cur) => acc + cur.points, 0)

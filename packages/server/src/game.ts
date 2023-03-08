@@ -37,6 +37,17 @@ export class Game {
     consola.success(`Player ${player} join the game.`)
   }
 
+  leave (player: string) {
+    if (this.isPlaying) {
+      consola.warn(`Game has already started, player ${player} cannot leave.`)
+      return
+    }
+
+    if (!this.players[player]) { return }
+    delete this.players[player]
+    consola.info(`Player ${player} leave the game.`)
+  }
+
   start (player: string) {
     if (this.isPlaying) { return }
     const keys = Object.keys(this.players)

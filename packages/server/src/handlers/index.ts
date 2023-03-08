@@ -10,6 +10,11 @@ export const useJoinGame = defineSocketHandler(SocketEvent.JOIN_GAME, (_, game, 
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
+export const useLeaveGame = defineSocketHandler(SocketEvent.LEAVE_GAME, (_, game, player) => {
+  game.leave(player)
+  io.emit(SocketEvent.SYNC_GAME, game)
+})
+
 export const useStartGame = defineSocketHandler(SocketEvent.START_GAME, (_, game, player) => {
   game.start(player)
   io.emit(SocketEvent.SYNC_GAME, game)
@@ -38,12 +43,13 @@ export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (_, ga
 export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (_, game, player, params: PlayerAction) => {
   const p = game.players[player] as any
   if (!p?.[params]) { consola.error(`Do not have action named ${params}`) }
-  p[params]()
+  p[params](game, player)
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
 export const useHandlers = (socket: Socket, game: Game, player: string) => {
   useJoinGame(socket, game, player)
+  useLeaveGame(socket, game, player)
   useStartGame(socket, game, player)
   useRollDices(socket, game, player)
   useEndGame(socket, game, player)

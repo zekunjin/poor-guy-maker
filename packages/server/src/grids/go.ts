@@ -6,7 +6,7 @@ export class Go extends Grid {
     super('go')
   }
 
-  event (game: Game, player: string): void {
-    game.players[player]?.action(game, this)
+  event (game: Game): void {
+    game.active.at = this
   }
 }

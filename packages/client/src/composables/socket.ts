@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { io, Socket } from 'socket.io-client'
 import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction } from '@poor-guy-maker/shared'
@@ -7,7 +7,7 @@ let socket: Socket
 
 export const useSocket = () => {
   const connected = ref(false)
-  const game = ref({})
+  const game = ref<any>({})
 
   const player = ref((() => {
     const id = localStorage.getItem(CLIENT_ID_KEY)
@@ -17,6 +17,11 @@ export const useSocket = () => {
     if (!id) { localStorage.setItem(CLIENT_ID_KEY, client) }
     return client
   })())
+
+  const actions = computed(() => {
+    const p = game.value?.players?.[player.value]
+    return p ? p.actions : []
+  })
 
   const connect = (host = 'http://127.0.0.1') => {
     socket = io(`${host}:${SERVER_PORT}`, { query: { client: player.value } })
@@ -29,6 +34,10 @@ export const useSocket = () => {
 
   const join = () => {
     socket.emit(SocketEvent.JOIN_GAME)
+  }
+
+  const leave = () => {
+    socket.emit(SocketEvent.LEAVE_GAME)
   }
 
   const roll = () => {
@@ -60,8 +69,10 @@ export const useSocket = () => {
     connected,
     player,
     game,
+    actions,
     connect,
     join,
+    leave,
     start,
     roll,
     next,
