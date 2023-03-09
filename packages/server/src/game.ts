@@ -3,16 +3,18 @@ import { GameStatus } from '@poor-guy-maker/shared'
 import { Player } from './players/default'
 import { shuffle } from './_utils'
 import { China } from './boards/china'
+import { Auction } from './auction'
 
 export class Game {
   public players: Record<string, Player> = {}
   public status = GameStatus.PENDING
   public order: string[] = []
   public rounds = 0
+  public auction?: Auction
 
   public board = new China()
 
-  private _activeIndex = 0
+  public activeIndex = 0
 
   join (player?: string) {
     if (!player) { return }
@@ -71,7 +73,7 @@ export class Game {
     this.status = GameStatus.PENDING
     this.players = {}
     this.rounds = 0
-    this._activeIndex = 0
+    this.activeIndex = 0
     consola.success(`Game restarted by player ${player}.`)
   }
 
@@ -79,16 +81,16 @@ export class Game {
     if (!this.isActive) { return }
     if (!this.active.next()) { return }
 
-    this._activeIndex = this._activeIndex + 1
+    this.activeIndex = this.activeIndex + 1
 
-    if (this._activeIndex > this.order.length - 1) {
-      this._activeIndex = 0
+    if (this.activeIndex > this.order.length - 1) {
+      this.activeIndex = 0
       this.rounds = this.rounds + 1
     }
   }
 
   isActive (player: string) {
-    return this.order[this._activeIndex] === player
+    return this.order[this.activeIndex] === player
   }
 
   get isPlaying () {
@@ -96,7 +98,7 @@ export class Game {
   }
 
   get active () {
-    const tk = this.order[this._activeIndex]
+    const tk = this.order[this.activeIndex]
     return this.players[tk]
   }
 }

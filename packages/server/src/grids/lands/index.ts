@@ -1,7 +1,7 @@
 import { Game } from '../../game'
 import { Grid } from '../grid'
 
-export class Block extends Grid {
+export class Land extends Grid {
   public price: number
   public owner?: string
   public rent = [16, 16 * 2, 16 * 5]
@@ -18,7 +18,7 @@ export class Block extends Grid {
     const group = game.board.groups.find(item => item.includes(this.tk)) || []
 
     const num = game.board.grids.filter((item) => {
-      if (!isBlock(item)) { return false }
+      if (!isLand(item)) { return false }
       return group.includes(item.tk) && item.owner === this.owner
     })
 
@@ -28,4 +28,4 @@ export class Block extends Grid {
   }
 }
 
-export const isBlock = (value: any): value is Block => value?.constructor === Block
+export const isLand = (value: any): value is Land => value?.constructor === Land

@@ -2,14 +2,15 @@ import consola from 'consola'
 import { PlayerAction } from '@poor-guy-maker/shared'
 import { Dice } from '../dices/default'
 import { Game } from '../game'
-import { isBlock } from '../grids/blocks'
+import { isLand } from '../grids/lands'
 import { Grid } from '../grids/grid'
+import { Auction } from '../auction'
 
 export class Player {
   public assets = 1500
   public position = 0
   public dices: Dice[] = [new Dice(), new Dice()]
-  public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION, PlayerAction.BID]
+  public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION]
   public at?: Grid
 
   private _remainingTimes = 1
@@ -48,7 +49,7 @@ export class Player {
   }
 
   buy (_: Game, player: string) {
-    if (!isBlock(this.at)) { return }
+    if (!isLand(this.at)) { return }
     if (this.at.owner) { return }
     if (this.at.price > this.assets) { return }
 
@@ -58,9 +59,12 @@ export class Player {
     consola.success(`Player ${player} bought the block ${this.at.name}`)
   }
 
-  auction (_: Game, grid: Grid) { }
-
-  bid (_: Game, grid: Grid) {}
+  auction (game: Game) {
+    const grid = game.active.at
+    if (!isLand(grid)) { return }
+    if (game.auction) { return }
+    game.auction = new Auction(game, grid)
+  }
 
   get points () {
     return this.dices.reduce((acc, cur) => acc + cur.points, 0)

@@ -53,6 +53,22 @@ connect()
       </button>
     </div>
 
+    <template v-if="game.auction">
+      <div>
+        auction
+      </div>
+
+      <div class="flex gap-2">
+        <button>
+          bid
+        </button>
+
+        <button>
+          skip
+        </button>
+      </div>
+    </template>
+
     <div class="flex">
       <div
         v-for="item in game.board?.grids"

@@ -8,7 +8,8 @@ export enum SocketEvent {
   PAUSE_GAME = 'pause game',
   RESTART_GAME = 'restart game',
   NEXT_PLAYER = 'next player',
-  SELECT_ACTION = 'select action'
+  SELECT_ACTION = 'select action',
+  AUCTION = 'auction'
 }
 
 export enum GameStatus {
@@ -19,6 +20,10 @@ export enum GameStatus {
 
 export enum PlayerAction {
   BUY = 'buy',
-  AUCTION = 'auction',
-  BID = 'bid'
+  AUCTION = 'auction'
+}
+
+export enum AuctionEvent {
+  BID = 'bid',
+  SKIP = 'skip'
 }

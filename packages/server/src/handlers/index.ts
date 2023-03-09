@@ -4,6 +4,7 @@ import consola from 'consola'
 import { defineSocketHandler } from '../_utils'
 import { io } from '../..'
 import { Game } from '../game'
+import { useAuction } from './useAuction'
 
 export const useJoinGame = defineSocketHandler(SocketEvent.JOIN_GAME, (_, game, player) => {
   game.join(player)
@@ -56,4 +57,5 @@ export const useHandlers = (socket: Socket, game: Game, player: string) => {
   useRestartGame(socket, game, player)
   useNextPlayer(socket, game, player)
   useSelectAction(socket, game, player)
+  useAuction(socket, game, player)
 }

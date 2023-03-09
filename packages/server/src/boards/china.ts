@@ -1,16 +1,16 @@
-import { Block } from '../grids/blocks'
+import { Land } from '../grids/lands'
 import { Start } from '../grids/start'
 import { Board } from '.'
 
 const start = new Start()
-const shanghai = new Block('Shanghai', 500)
-const beijing = new Block('Beijing', 500)
-const guangzhou = new Block('Guangzhou', 450)
-const shenzheng = new Block('Shenzheng', 450)
-const suzhou = new Block('Suzhou', 400)
-const hangzhou = new Block('Hangzhou', 400)
-const nanchang = new Block('Nanchang', 350)
-const jiujiang = new Block('Jiujiang', 350)
+const shanghai = new Land('Shanghai', 500)
+const beijing = new Land('Beijing', 500)
+const guangzhou = new Land('Guangzhou', 450)
+const shenzheng = new Land('Shenzheng', 450)
+const suzhou = new Land('Suzhou', 400)
+const hangzhou = new Land('Hangzhou', 400)
+const nanchang = new Land('Nanchang', 350)
+const jiujiang = new Land('Jiujiang', 350)
 
 export class China extends Board {
   public grids = [
