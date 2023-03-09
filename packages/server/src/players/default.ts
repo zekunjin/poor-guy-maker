@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { PlayerAction } from '@poor-guy-maker/shared'
+import { JAIL_BAIL, PlayerAction } from '@poor-guy-maker/shared'
 import { Dice } from '../dices/default'
 import { Game } from '../game'
 import { isLand, Land } from '../grids/lands'
@@ -8,28 +8,45 @@ import { Auction } from '../auction'
 
 export class Player {
   public assets = 1500
+  public steps = 0
   public position = 0
   public dices: Dice[] = [new Dice(), new Dice()]
   public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION]
+  public dynamicActions = new Set<string>()
   public at?: Grid
 
   private _remainingTimes = 1
 
-  roll (game: Game, player: string) {
+  beforeRoll (game: Game, _player: string) {
+    return this.at?.beforeRoll(game, this)
+  }
+
+  async roll (game: Game, player: string) {
     if (!this._remainingTimes) { return }
+    const valid = await this.beforeRoll(game, player)
+    if (!valid) { return }
     this.dices.forEach(dice => dice.roll())
     this._remainingTimes = this._remainingTimes - 1
     this.afterRoll(game, player, this.points)
     return this.points
   }
 
-  afterRoll (game: Game, player: string, steps: number) {
-    this.move(player, steps)
-    game.board.grids[this.position % game.board.grids.length]?.event(game)
+  async afterRoll (game: Game, player: string, steps: number) {
+    const valid = await this.at?.afterRoll(game, this)
+    if (!valid) { return }
+    this.move(game, player, steps)
+    this.getGrid(game)?.event(game, player)
   }
 
-  move (player: string, steps: number) {
-    this.position = this.position + steps
+  move (game: Game, player: string, steps: number) {
+    let i = 1
+    while (i < steps) {
+      this.steps++
+      this.getGrid(game)?.passbyEvent(game, player)
+      i++
+    }
+    this.steps++
+    this.position = this.steps % game.board.grids.length
     consola.success(`Player ${player} moved ${steps} steps`)
   }
 
@@ -60,7 +77,7 @@ export class Player {
     this.assets = this.assets - price
     t.owner = player
 
-    consola.success(`Player ${player} bought the block ${t.name}`)
+    consola.success(`Player ${player} bought the land ${t.name}`)
   }
 
   auction (game: Game) {
@@ -68,6 +85,14 @@ export class Player {
     if (!isLand(grid)) { return }
     if (game.auction) { return }
     game.auction = new Auction(game, grid)
+  }
+
+  getGrid (game: Game) {
+    return game.board.grids[this.position]
+  }
+
+  payBail () {
+    this.assets -= JAIL_BAIL
   }
 
   get points () {

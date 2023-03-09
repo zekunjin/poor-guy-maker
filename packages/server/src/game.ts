@@ -55,12 +55,12 @@ export class Game {
     })
   }
 
-  roll (player: string) {
+  async roll (player: string) {
     if (!this.isPlaying) { return }
     if (!this.isActive(player)) { return }
 
     consola.success(`Player ${player} roll dices.`)
-    this.players[player]?.roll(this, player)
+    await this.players[player]?.roll(this, player)
   }
 
   pause (player: string) {
@@ -79,7 +79,7 @@ export class Game {
 
   next () {
     if (!this.isActive) { return }
-    if (!this.active.next()) { return }
+    if (!this.active?.next()) { return }
 
     this.activeIndex = this.activeIndex + 1
 

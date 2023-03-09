@@ -1,10 +1,11 @@
-import { PlayerAction, SocketEvent } from 'packages/shared'
+import { PlayerAction, SocketEvent } from '@poor-guy-maker/shared'
 import { Socket } from 'socket.io'
 import consola from 'consola'
 import { defineSocketHandler } from '../_utils'
 import { io } from '../..'
 import { Game } from '../game'
 import { useAuction } from './useAuction'
+import { useRollDices } from './useRollDices'
 
 export const useJoinGame = defineSocketHandler(SocketEvent.JOIN_GAME, (_, game, player) => {
   game.join(player)
@@ -18,11 +19,6 @@ export const useLeaveGame = defineSocketHandler(SocketEvent.LEAVE_GAME, (_, game
 
 export const useStartGame = defineSocketHandler(SocketEvent.START_GAME, (_, game, player) => {
   game.start(player)
-  io.emit(SocketEvent.SYNC_GAME, game)
-})
-
-export const useRollDices = defineSocketHandler(SocketEvent.ROLL_DICES, (_, game, player) => {
-  game.roll(player)
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 

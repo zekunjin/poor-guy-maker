@@ -1,8 +1,10 @@
 import { Land } from '../grids/lands'
 import { Start } from '../grids/start'
+import { Jail } from '../grids/jail'
 import { Board } from '.'
 
 const start = new Start()
+const jail = new Jail()
 const shanghai = new Land('Shanghai', 500)
 const beijing = new Land('Beijing', 500)
 const guangzhou = new Land('Guangzhou', 450)
@@ -17,6 +19,7 @@ export class China extends Board {
     start,
     shanghai,
     beijing,
+    jail,
     guangzhou,
     shenzheng,
     suzhou,
@@ -27,6 +30,7 @@ export class China extends Board {
 
   public groups = [
     [start.tk],
+    [jail.tk],
     [shanghai.tk, beijing.tk],
     [guangzhou.tk, shenzheng.tk],
     [suzhou.tk, hangzhou.tk],

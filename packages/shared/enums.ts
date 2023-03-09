@@ -23,6 +23,11 @@ export enum PlayerAction {
   AUCTION = 'auction'
 }
 
+export enum PlayerDynamicAction {
+  PAY_BAIL = 'payBail',
+  CANCEL = 'cancel'
+}
+
 export enum AuctionEvent {
   BID = 'bid',
   SKIP = 'skip'

@@ -1,3 +1,5 @@
+import consola from 'consola'
+import { START_REWARD } from '@poor-guy-maker/shared'
 import { Game } from '../game'
 import { Grid } from './grid'
 
@@ -6,7 +8,18 @@ export class Start extends Grid {
     super('Start')
   }
 
-  event (game: Game): void {
+  event (game: Game, player: string): void {
     game.active.at = this
+    this.reward(game, player)
+  }
+
+  passbyEvent (game: Game, player: string): void {
+    this.reward(game, player)
+  }
+
+  reward (game: Game, player: string) {
+    const p = game.players[player]
+    p.assets += START_REWARD
+    consola.info('Player was rewarded 200')
   }
 }

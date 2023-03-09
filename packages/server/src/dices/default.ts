@@ -7,3 +7,5 @@ export class Dice {
     this.points = randomInt(1, 6)
   }
 }
+
+export const isDice = (value: any): value is Dice => value?.constructor === Dice
