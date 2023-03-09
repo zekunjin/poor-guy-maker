@@ -45,7 +45,7 @@ export class Game {
     if (this.isPlaying) { return }
     const keys = Object.keys(this.players)
     if (!keys.length) { return }
-    consola.success(`Game started by player ${player}.`)
+    consola.info(`Game started by player ${player}.`)
 
     this.status = GameStatus.PLAYING
     this.order = shuffle(keys)
@@ -59,7 +59,7 @@ export class Game {
     if (!this.isPlaying) { return }
     if (!this.isActive(player)) { return }
 
-    consola.success(`Player ${player} roll dices.`)
+    consola.info(`Player ${player} roll dices.`)
     await this.players[player]?.roll(this, player)
   }
 

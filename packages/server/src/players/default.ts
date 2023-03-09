@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { JAIL_BAIL, PlayerAction } from '@poor-guy-maker/shared'
+import { JAIL_BAIL, PlayerAction, PlayerDynamicAction } from '@poor-guy-maker/shared'
 import { Dice } from '../dices/default'
 import { Game } from '../game'
 import { isLand, Land } from '../grids/lands'
@@ -15,6 +15,7 @@ export class Player {
   public dynamicActions = new Set<string>()
   public at?: Grid
 
+  private _inJail = false
   private _remainingTimes = 1
 
   beforeRoll (game: Game, _player: string) {
@@ -42,12 +43,14 @@ export class Player {
     let i = 1
     while (i < steps) {
       this.steps++
+      this.position = (this.position + 1) % game.board.grids.length
       this.getGrid(game)?.passbyEvent(game, player)
       i++
     }
     this.steps++
-    this.position = this.steps % game.board.grids.length
-    consola.success(`Player ${player} moved ${steps} steps`)
+    this.position = (this.position + 1) % game.board.grids.length
+
+    consola.info(`Player ${player} moved ${steps} steps`)
   }
 
   next () {
@@ -101,5 +104,23 @@ export class Player {
 
   get disabled () {
     return this.assets < 0
+  }
+
+  get inJail () {
+    return this._inJail
+  }
+
+  set inJail (value) {
+    if (value) {
+      this.dynamicActions.add(PlayerDynamicAction.PAY_BAIL)
+      this.dynamicActions.add(PlayerDynamicAction.CANCEL)
+    }
+
+    if (!value) {
+      this.dynamicActions.delete(PlayerDynamicAction.PAY_BAIL)
+      this.dynamicActions.delete(PlayerDynamicAction.CANCEL)
+    }
+
+    this._inJail = value
   }
 }

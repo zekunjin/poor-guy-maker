@@ -1,4 +1,4 @@
-import { PlayerDynamicAction } from 'packages/shared'
+import consola from 'consola'
 import { isDice } from '../dices/default'
 import { Game } from '../game'
 import { Player } from '../players/default'
@@ -14,13 +14,15 @@ export class Jail extends Grid {
   }
 
   afterRoll (_: Game, player: Player): Promise<boolean> {
+    if (!player.inJail) { return Promise.resolve(true) }
+
     const dices = player.dices.filter(dice => isDice(dice))
     if (dices.length < 2) { return Promise.resolve(true) }
     const isSame = dices.every(({ points }) => points === dices[0].points)
 
     if (isSame) {
-      player.dynamicActions.delete(PlayerDynamicAction.PAY_BAIL)
-      player.dynamicActions.delete(PlayerDynamicAction.CANCEL)
+      player.inJail = false
+      consola.info('Current player get out of prison')
     }
 
     return Promise.resolve(isSame)
