@@ -2,7 +2,7 @@ import consola from 'consola'
 import { PlayerAction } from '@poor-guy-maker/shared'
 import { Dice } from '../dices/default'
 import { Game } from '../game'
-import { isLand } from '../grids/lands'
+import { isLand, Land } from '../grids/lands'
 import { Grid } from '../grids/grid'
 import { Auction } from '../auction'
 
@@ -48,15 +48,19 @@ export class Player {
     consola.success(`Player ${to} received ${num} rents.`)
   }
 
-  buy (_: Game, player: string) {
-    if (!isLand(this.at)) { return }
-    if (this.at.owner) { return }
-    if (this.at.price > this.assets) { return }
+  buy (_: Game, player: string, land?: Land, num?: number) {
+    const t = land || this.at
+    if (!isLand(t)) { return }
+    if (t.owner) { return }
 
-    this.assets = this.assets - this.at.price
-    this.at.owner = player
+    const price = num ?? t.price
 
-    consola.success(`Player ${player} bought the block ${this.at.name}`)
+    if (price > this.assets) { return }
+
+    this.assets = this.assets - price
+    t.owner = player
+
+    consola.success(`Player ${player} bought the block ${t.name}`)
   }
 
   auction (game: Game) {

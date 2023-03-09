@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref } from 'vue'
+import { AuctionEvent } from '@poor-guy-maker/shared'
 import { useSocket } from './composables/socket'
 
-const { game, player, actions, connect, join, leave, start, pause, restart, roll, next, action } = useSocket()
+const num = ref(0)
+const { game, player, actions, connect, join, leave, start, pause, restart, roll, next, action, auction } = useSocket()
 
 connect()
 </script>
@@ -59,11 +61,13 @@ connect()
       </div>
 
       <div class="flex gap-2">
-        <button>
+        <input v-model="num" type="number">
+
+        <button @click="auction(AuctionEvent.BID, num)">
           bid
         </button>
 
-        <button>
+        <button @click="auction(AuctionEvent.SKIP, num)">
           skip
         </button>
       </div>

@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { io, Socket } from 'socket.io-client'
-import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction } from '@poor-guy-maker/shared'
+import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction, AuctionEvent } from '@poor-guy-maker/shared'
 
 let socket: Socket
 
@@ -65,6 +65,11 @@ export const useSocket = () => {
     socket.emit(SocketEvent.SELECT_ACTION, a)
   }
 
+  const auction = (event: AuctionEvent, num: number) => {
+    if (!socket) { return }
+    socket.emit(SocketEvent.AUCTION, { event, num })
+  }
+
   return {
     connected,
     player,
@@ -78,6 +83,7 @@ export const useSocket = () => {
     next,
     pause,
     restart,
-    action
+    action,
+    auction
   }
 }
