@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { JAIL_BAIL, PlayerAction, PlayerDynamicAction } from '@poor-guy-maker/shared'
+import { JAIL_BAIL, JAIL_ROUNDS, PlayerAction, PlayerDynamicAction } from '@poor-guy-maker/shared'
 import { Dice } from '../dices/default'
 import { Game } from '../game'
 import { isLand, Land } from '../grids/lands'
@@ -10,6 +10,8 @@ export class Player {
   public assets = 1500
   public steps = 0
   public position = 0
+  public rounds = 0
+  public releaseRounds = 0
   public dices: Dice[] = [new Dice(), new Dice()]
   public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION]
   public dynamicActions = new Set<string>()
@@ -27,7 +29,10 @@ export class Player {
     const valid = await this.beforeRoll(game, player)
     if (!valid) { return }
     this.dices.forEach(dice => dice.roll())
-    this._remainingTimes = this._remainingTimes - 1
+
+    this.rounds++
+    this._remainingTimes--
+
     this.afterRoll(game, player, this.points)
     return this.points
   }
@@ -111,15 +116,10 @@ export class Player {
   }
 
   set inJail (value) {
-    if (value) {
-      this.dynamicActions.add(PlayerDynamicAction.PAY_BAIL)
-      this.dynamicActions.add(PlayerDynamicAction.CANCEL)
-    }
+    this.dynamicActions?.[value ? 'add' : 'delete'](PlayerDynamicAction.PAY_BAIL)
+    this.dynamicActions?.[value ? 'add' : 'delete'](PlayerDynamicAction.CANCEL)
 
-    if (!value) {
-      this.dynamicActions.delete(PlayerDynamicAction.PAY_BAIL)
-      this.dynamicActions.delete(PlayerDynamicAction.CANCEL)
-    }
+    if (value) { this.releaseRounds = this.rounds + JAIL_ROUNDS }
 
     this._inJail = value
   }
