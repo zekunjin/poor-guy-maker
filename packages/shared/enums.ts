@@ -1,7 +1,7 @@
 export enum SocketEvent {
   ROLL_DICES = 'roll dices',
   START_GAME = 'start game',
-  JOIN_GAME = 'join game',
+  READY_GAME = 'ready game',
   LEAVE_GAME = 'leave game',
   SYNC_GAME = 'sync game',
   GEN_PLAYER = 'gen player',

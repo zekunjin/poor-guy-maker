@@ -36,8 +36,8 @@ export const useSocket = () => {
     socket.emit(SocketEvent.START_GAME)
   }
 
-  const join = () => {
-    socket.emit(SocketEvent.JOIN_GAME)
+  const ready = () => {
+    socket.emit(SocketEvent.READY_GAME)
   }
 
   const leave = () => {
@@ -86,7 +86,7 @@ export const useSocket = () => {
     active,
     actions,
     connect,
-    join,
+    ready,
     leave,
     start,
     roll,

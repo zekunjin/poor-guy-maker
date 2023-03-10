@@ -4,7 +4,7 @@ import { AuctionAction } from '@poor-guy-maker/shared'
 import { useSocket } from './composables/socket'
 
 const num = ref(0)
-const { active, game, player, actions, connect, join, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useSocket()
+const { active, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useSocket()
 
 connect()
 </script>
@@ -18,8 +18,8 @@ connect()
     <div>game actions</div>
 
     <div class="flex gap-2">
-      <button @click="join">
-        join
+      <button @click="ready">
+        ready
       </button>
 
       <button @click="leave">

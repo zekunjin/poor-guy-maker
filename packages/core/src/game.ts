@@ -20,18 +20,18 @@ export class Game {
     this.board = board
   }
 
-  join (player?: string) {
+  ready (player: string) {
     if (!player) { return }
 
     if (this.isPlaying) {
-      consola.warn(`Game has already started, player ${player} cannot join.`)
+      consola.warn('Game has already started.')
       return
     }
 
     if (this.players[player]) { return }
 
     this.players[player] = new Player()
-    consola.success(`Player ${player} join the game.`)
+    consola.success(`Player ${player} is ready.`)
   }
 
   leave (player: string) {

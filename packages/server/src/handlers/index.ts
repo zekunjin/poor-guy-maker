@@ -8,8 +8,8 @@ import { useAuctionActions } from './useAuctionActions'
 import { useRollDices } from './useRollDices'
 import { useGridActions } from './useGridActions'
 
-export const useJoinGame = defineSocketHandler(SocketEvent.JOIN_GAME, (_, game, player) => {
-  game.join(player)
+export const useReadyGame = defineSocketHandler(SocketEvent.READY_GAME, (_, game, player) => {
+  game.ready(player)
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
@@ -46,7 +46,7 @@ export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (_
 })
 
 export const useHandlers = (socket: Socket, game: Game, player: string) => {
-  useJoinGame(socket, game, player)
+  useReadyGame(socket, game, player)
   useLeaveGame(socket, game, player)
   useStartGame(socket, game, player)
   useRollDices(socket, game, player)

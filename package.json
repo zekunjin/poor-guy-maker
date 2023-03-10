@@ -6,6 +6,9 @@
     "dev:client": "pnpm -C packages/client dev",
     "dev:server": "pnpm -C packages/server dev",
     "dev:shared": "pnpm -C packages/shared dev",
+    "dev:core": "pnpm -C packages/core dev",
+    "dev:common": "pnpm -C packages/common dev",
+    "build": "pnpm -r --filter=./packages/* build",
     "build:shared": "pnpm -C packages/shared build",
     "test": "vitest"
   },
@@ -23,7 +26,7 @@
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "eslint": "^8.35.0",
     "tsup": "^6.6.3",
-    "typescript": "5.1.0-dev.20230306",
+    "typescript": "^4.9.5",
     "vitest": "^0.29.2"
   }
 }
