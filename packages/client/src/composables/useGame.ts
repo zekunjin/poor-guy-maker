@@ -5,7 +5,7 @@ import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction, AuctionAction, G
 
 let socket: Socket
 
-export const useSocket = () => {
+export const useGame = () => {
   const connected = ref(false)
   const game = ref<any>({})
 
@@ -18,7 +18,7 @@ export const useSocket = () => {
     return client
   })())
 
-  const active = computed(() => {
+  const me = computed(() => {
     return game.value?.players?.[player.value]
   })
 
@@ -69,7 +69,7 @@ export const useSocket = () => {
     socket.emit(SocketEvent.SELECT_ACTION, a)
   }
 
-  const auctionAction = (action: AuctionAction, num: number) => {
+  const auctionAction = (action: AuctionAction, num?: number) => {
     if (!socket) { return }
     socket.emit(SocketEvent.AUCTION, { action, num })
   }
@@ -83,7 +83,7 @@ export const useSocket = () => {
     connected,
     player,
     game,
-    active,
+    me,
     actions,
     connect,
     ready,

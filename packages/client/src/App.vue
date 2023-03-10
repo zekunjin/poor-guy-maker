@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { AuctionAction } from '@poor-guy-maker/shared'
-import { useSocket } from './composables/socket'
+import { computed, ref } from 'vue'
+import { AuctionAction, COLORS } from '@poor-guy-maker/shared'
+import { useGame } from './composables/useGame'
+import Grid from './components/Grid.vue'
 
 const num = ref(0)
-const { active, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useSocket()
+const { me, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useGame()
+
+const players = computed(() => {
+  if (!game.value.players) { return [] }
+  const order: string[] = game.value?.order || []
+  return order.map((tk, i) => ({
+    tk,
+    color: COLORS[i],
+    ...game.value.players[tk]
+  }))
+})
 
 connect()
 </script>
@@ -60,7 +71,7 @@ connect()
     </div>
 
     <div class="flex gap-2">
-      <button v-for="item in active?.at?.actions || []" :key="item" @click="gridAction(item)">
+      <button v-for="item in me?.at?.actions || []" :key="item" @click="gridAction(item)">
         {{ item }}
       </button>
     </div>
@@ -77,25 +88,27 @@ connect()
           bid
         </button>
 
-        <button @click="auctionAction(AuctionAction.SKIP, num)">
+        <button @click="auctionAction(AuctionAction.SKIP)">
           skip
         </button>
       </div>
     </template>
 
-    <div class="flex">
-      <div
-        v-for="item in game.board?.grids"
+    <div class="flex gap-1 p-1 overflow-auto bg-gray-100 rounded-lg">
+      <Grid
+        v-for="item, index in game.board?.grids"
         :key="item.tk"
-        class="border- border-solid border-black py-4 flex flex-col items-center justify-center w-48"
-      >
-        <div />
+        :name="item.name"
+        :price="item.price"
+        :players="players.filter(({ position }) => position === index)"
+      />
+    </div>
 
-        <div>{{ item.name }}</div>
-
-        <div v-if="item.owner">
-          owner: {{ item.owner }}
-        </div>
+    <div class="flex flex-col bg-gray-100 gap-1 p-1 w-96 rounded-lg">
+      <div v-for="item, index in game.order" :key="item" class="px-4 py-3 bg-white flex items-center gap-2 rounded-lg">
+        <div class="w-3 h-3 rounded-full" :style="{ background: COLORS[index]}" />
+        <span>{{ item === player ? 'me' : item }}</span>
+        <span v-show="index === game.activeIndex">(active)</span>
       </div>
     </div>
 
