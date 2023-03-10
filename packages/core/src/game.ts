@@ -16,6 +16,10 @@ export class Game {
 
   public activeIndex = 0
 
+  constructor (board: Board) {
+    this.board = board
+  }
+
   join (player?: string) {
     if (!player) { return }
 

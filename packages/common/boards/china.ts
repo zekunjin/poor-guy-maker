@@ -19,3 +19,5 @@ export class China extends Board {
     [shanghai.tk, beijing.tk]
   ]
 }
+
+export const china = new China()

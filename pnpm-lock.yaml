@@ -75,11 +75,15 @@ importers:
 
   packages/server:
     specifiers:
+      '@poor-guy-maker/common': workspace:^0.0.1
+      '@poor-guy-maker/core': workspace:^0.0.1
       '@poor-guy-maker/shared': workspace:^0.0.1
       consola: ^2.15.3
       nanoid: ^4.0.1
       socket.io: ^4.6.1
     dependencies:
+      '@poor-guy-maker/common': link:../common
+      '@poor-guy-maker/core': link:../core
       '@poor-guy-maker/shared': link:../shared
       consola: 2.15.3
       nanoid: 4.0.1

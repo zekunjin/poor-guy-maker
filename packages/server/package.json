@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@poor-guy-maker/common": "workspace:^0.0.1",
+    "@poor-guy-maker/core": "workspace:^0.0.1",
     "@poor-guy-maker/shared": "workspace:^0.0.1",
     "consola": "^2.15.3",
     "nanoid": "^4.0.1",

@@ -1,23 +1,6 @@
 import { SocketEvent } from '@poor-guy-maker/shared'
 import { Socket } from 'socket.io'
-import { Game } from './game'
-
-export const shuffle = (array: any[]) => {
-  let currentIndex = array.length
-  let temporaryValue
-  let randomIndex
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex -= 1
-
-    temporaryValue = array[currentIndex]
-    array[currentIndex] = array[randomIndex]
-    array[randomIndex] = temporaryValue
-  }
-
-  return array
-}
+import { Game } from '@poor-guy-maker/core'
 
 export const defineSocketHandler = (key: SocketEvent, event: (socket: Socket, game: Game, player: string, params: any) => any) => (socket: Socket, game: Game, player: string) => {
   socket.on(key, (params: any) => {

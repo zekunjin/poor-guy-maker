@@ -1,1 +1,1 @@
-export * from './players/default'
+export * from './boards/china'
