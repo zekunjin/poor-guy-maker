@@ -1,16 +1,21 @@
 import consola from 'consola'
-import { GridAction } from '@poor-guy-maker/shared'
+import { GridAction, JAIL_BAIL } from '@poor-guy-maker/shared'
 import { isDice } from '../dices/default'
 import { Game } from '../game'
 import { Player } from '../players/default'
 import { Grid } from './grid'
 
 export class Jail extends Grid {
-  public actions = [GridAction.PAY_BAIL, GridAction.CANCEL]
+  public actions = [GridAction.PAY_BAIL]
 
   public onActions: Partial<Record<GridAction, any>> = {
-    [GridAction.PAY_BAIL]: () => { },
-    [GridAction.CANCEL]: () => { }
+    payBail: (game: Game, p: string) => {
+      const player = game.players[p]
+      if (!player?.inJail) { return }
+      player.assets -= JAIL_BAIL
+      player.inJail = false
+      consola.info(`Player ${p} pay for jail.`)
+    }
   }
 
   constructor () {

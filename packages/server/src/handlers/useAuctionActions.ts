@@ -3,12 +3,12 @@ import { defineSocketHandler } from '../_utils'
 import { io } from '../..'
 
 export interface AuctionDTO {
-  event: AuctionAction
+  action: AuctionAction
   num: number
 }
 
-export const useAuction = defineSocketHandler(SocketEvent.AUCTION, (_, game, player, { event, num }: AuctionDTO) => {
+export const useAuctionActions = defineSocketHandler(SocketEvent.AUCTION, (_, game, player, { action, num }: AuctionDTO) => {
   if (!game.auction) { return }
-  game.auction.onActions[event](game, player, num)
+  game.auction.onActions[action](game, player, num)
   io.emit(SocketEvent.SYNC_GAME, game)
 })

@@ -4,7 +4,7 @@ import { AuctionAction } from '@poor-guy-maker/shared'
 import { useSocket } from './composables/socket'
 
 const num = ref(0)
-const { game, player, actions, connect, join, leave, start, pause, restart, roll, next, action, auction } = useSocket()
+const { active, game, player, actions, connect, join, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useSocket()
 
 connect()
 </script>
@@ -55,19 +55,29 @@ connect()
       </button>
     </div>
 
+    <div>
+      grid actions
+    </div>
+
+    <div class="flex gap-2">
+      <button v-for="item in active?.at?.actions || []" :key="item" @click="gridAction(item)">
+        {{ item }}
+      </button>
+    </div>
+
     <template v-if="game.auction">
       <div>
-        auction
+        auction actions
       </div>
 
       <div class="flex gap-2">
         <input v-model="num" type="number">
 
-        <button @click="auction(AuctionAction.BID, num)">
+        <button @click="auctionAction(AuctionAction.BID, num)">
           bid
         </button>
 
-        <button @click="auction(AuctionAction.SKIP, num)">
+        <button @click="auctionAction(AuctionAction.SKIP, num)">
           skip
         </button>
       </div>

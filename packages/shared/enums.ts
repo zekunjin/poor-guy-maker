@@ -24,8 +24,7 @@ export enum PlayerAction {
 }
 
 export enum GridAction {
-  PAY_BAIL = 'payBail',
-  CANCEL = 'cancel'
+  PAY_BAIL = 'payBail'
 }
 
 export enum AuctionAction {

@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { io, Socket } from 'socket.io-client'
-import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction, AuctionAction } from '@poor-guy-maker/shared'
+import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction, AuctionAction, GridAction } from '@poor-guy-maker/shared'
 
 let socket: Socket
 
@@ -17,6 +17,10 @@ export const useSocket = () => {
     if (!id) { localStorage.setItem(CLIENT_ID_KEY, client) }
     return client
   })())
+
+  const active = computed(() => {
+    return game.value?.players?.[player.value]
+  })
 
   const actions = computed(() => {
     const p = game.value?.players?.[player.value]
@@ -65,15 +69,21 @@ export const useSocket = () => {
     socket.emit(SocketEvent.SELECT_ACTION, a)
   }
 
-  const auction = (event: AuctionAction, num: number) => {
+  const auctionAction = (action: AuctionAction, num: number) => {
     if (!socket) { return }
-    socket.emit(SocketEvent.AUCTION, { event, num })
+    socket.emit(SocketEvent.AUCTION, { action, num })
+  }
+
+  const gridAction = (action: GridAction) => {
+    if (!socket) { return }
+    socket.emit(SocketEvent.AUCTION, { action })
   }
 
   return {
     connected,
     player,
     game,
+    active,
     actions,
     connect,
     join,
@@ -84,6 +94,7 @@ export const useSocket = () => {
     pause,
     restart,
     action,
-    auction
+    auctionAction,
+    gridAction
   }
 }
