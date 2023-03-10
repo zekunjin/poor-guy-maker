@@ -1,3 +1,4 @@
+import { AuctionAction } from 'packages/shared'
 import { Game } from './game'
 import { Land } from './grids/lands'
 
@@ -14,30 +15,32 @@ export class Auction {
 
   public activeIndex = 0
 
+  public onActions: Record<AuctionAction, (game: Game, player: string, num: number) => void> = {
+    bid: (_: Game, player: string, num: number) => {
+      if (!this.isActive(player)) { return }
+      if (this.max >= num) { return }
+      this.histories.push({ by: player, price: num })
+      this.next()
+    },
+
+    skip: (game: Game, player: string) => {
+      this.remove(player)
+      if (this.players.length > 1) { this.next() }
+      const last = this.histories.at(-1)
+
+      if (last && last.by) {
+        const p = game.players[last.by]
+        p.onActions.buy(game, last.by, this.land, last.price)
+      }
+
+      game.auction = undefined
+    }
+  }
+
   constructor (game: Game, land: Land) {
     this.land = land
     this.activeIndex = game.activeIndex
     this.players = game.order
-  }
-
-  bid (_: Game, player: string, num: number) {
-    if (!this.isActive(player)) { return }
-    if (this.max >= num) { return }
-    this.histories.push({ by: player, price: num })
-    this.next()
-  }
-
-  skip (game: Game, player: string) {
-    this.remove(player)
-    if (this.players.length > 1) { this.next() }
-    const last = this.histories.at(-1)
-
-    if (last && last.by) {
-      const p = game.players[last.by]
-      p.buy(game, last.by, this.land, last.price)
-    }
-
-    game.auction = undefined
   }
 
   next () {

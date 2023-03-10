@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { AuctionEvent } from '@poor-guy-maker/shared'
+import { AuctionAction } from '@poor-guy-maker/shared'
 import { useSocket } from './composables/socket'
 
 const num = ref(0)
@@ -63,11 +63,11 @@ connect()
       <div class="flex gap-2">
         <input v-model="num" type="number">
 
-        <button @click="auction(AuctionEvent.BID, num)">
+        <button @click="auction(AuctionAction.BID, num)">
           bid
         </button>
 
-        <button @click="auction(AuctionEvent.SKIP, num)">
+        <button @click="auction(AuctionAction.SKIP, num)">
           skip
         </button>
       </div>

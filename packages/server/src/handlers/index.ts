@@ -38,9 +38,9 @@ export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (_, ga
 })
 
 export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (_, game, player, params: PlayerAction) => {
-  const p = game.players[player] as any
-  if (!p?.[params]) { consola.error(`Do not have action named ${params}`) }
-  p[params](game, player)
+  const act = game.players[player].onActions
+  if (!act?.[params]) { consola.error(`Do not have action named ${params}`) }
+  act[params](game, player)
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 

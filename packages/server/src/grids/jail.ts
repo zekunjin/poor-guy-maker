@@ -1,10 +1,18 @@
 import consola from 'consola'
+import { GridAction } from '@poor-guy-maker/shared'
 import { isDice } from '../dices/default'
 import { Game } from '../game'
 import { Player } from '../players/default'
 import { Grid } from './grid'
 
 export class Jail extends Grid {
+  public actions = [GridAction.PAY_BAIL, GridAction.CANCEL]
+
+  public onActions: Partial<Record<GridAction, any>> = {
+    [GridAction.PAY_BAIL]: () => { },
+    [GridAction.CANCEL]: () => { }
+  }
+
   constructor () {
     super('Jail')
   }
