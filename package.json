@@ -2,6 +2,7 @@
   "name": "poor-guy-maker",
   "version": "0.0.1",
   "scripts": {
+    "dev": "pnpm -r --filter=./packages/* dev",
     "dev:client": "pnpm -C packages/client dev",
     "dev:server": "pnpm -C packages/server dev",
     "dev:shared": "pnpm -C packages/shared dev",
