@@ -53,22 +53,27 @@ importers:
       vite: 4.1.4_@types+node@18.14.6
       vue-tsc: 1.2.0
 
+  packages/core:
+    specifiers:
+      '@poor-guy-maker/shared': workspace:^0.0.1
+      consola: ^2.15.3
+      nanoid: ^4.0.1
+    dependencies:
+      '@poor-guy-maker/shared': link:../shared
+      consola: 2.15.3
+      nanoid: 4.0.1
+
   packages/server:
     specifiers:
       '@poor-guy-maker/shared': workspace:^0.0.1
-      '@types/lodash.flatten': ^4.4.7
       consola: ^2.15.3
-      lodash.flatten: ^4.4.0
       nanoid: ^4.0.1
       socket.io: ^4.6.1
     dependencies:
       '@poor-guy-maker/shared': link:../shared
       consola: 2.15.3
-      lodash.flatten: 4.4.0
       nanoid: 4.0.1
       socket.io: 4.6.1
-    devDependencies:
-      '@types/lodash.flatten': 4.4.7
 
   packages/shared:
     specifiers: {}
@@ -667,16 +672,6 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-    dev: true
-
-  /@types/lodash.flatten/4.4.7:
-    resolution: {integrity: sha512-6yyP/mHEKL2sa86V61F7TnEcUKlLML9+aWI7TCKvnS4SFt7RD4zTVwkdDgluOJqxVkwZ/2z7HvtRs/7j/Uru7g==}
-    dependencies:
-      '@types/lodash': 4.14.191
-    dev: true
-
-  /@types/lodash/4.14.191:
-    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/node/18.14.6:
@@ -2918,10 +2913,6 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
-
-  /lodash.flatten/4.4.0:
-    resolution: {integrity: sha512-C5N2Z3DgnnKr0LOpv/hKCgKdb7ZZwafIrsesve6lmzvZIRZRGaZ/l6Q8+2W7NaT+ZwO3fFlSCzCzrDCFdJfZ4g==}
-    dev: false
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
