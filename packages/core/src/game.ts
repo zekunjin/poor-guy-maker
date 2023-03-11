@@ -78,6 +78,7 @@ export class Game {
     this.players = {}
     this.rounds = 0
     this.activeIndex = 0
+    this.auction = undefined
     consola.success(`Game restarted by player ${player}.`)
   }
 

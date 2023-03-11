@@ -1,4 +1,4 @@
-import { PlayerAction, SocketEvent } from '@poor-guy-maker/shared'
+import { SocketEvent, ActPlayerDTO } from '@poor-guy-maker/shared'
 import { Socket } from 'socket.io'
 import consola from 'consola'
 import { Game } from '@poor-guy-maker/core'
@@ -38,10 +38,10 @@ export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (_, ga
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 
-export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (_, game, player, params: PlayerAction) => {
+export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (_, game, player, dto: ActPlayerDTO) => {
   const act = game.players[player].onActions
-  if (!act?.[params]) { consola.error(`Do not have action named ${params}`) }
-  act[params](game, player)
+  if (!act?.[dto.action]) { consola.error(`Do not have action named ${dto.action}`) }
+  act[dto.action](game, player, dto.params)
   io.emit(SocketEvent.SYNC_GAME, game)
 })
 

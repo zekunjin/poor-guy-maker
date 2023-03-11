@@ -6,7 +6,7 @@ export interface GridActionDTO {
   action: GridAction
 }
 
-export const useGridActions = defineSocketHandler(SocketEvent.AUCTION, (_, game, p, { action }: GridActionDTO) => {
+export const useGridActions = defineSocketHandler(SocketEvent.GRID_ACTION, (_, game, p, { action }: GridActionDTO) => {
   const player = game.players[p]
   if (!player) { return }
   player.at?.onActions[action](game, p)

@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { io, Socket } from 'socket.io-client'
-import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction, AuctionAction, GridAction } from '@poor-guy-maker/shared'
+import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction, AuctionAction, GridAction, type BuildHouseDTO } from '@poor-guy-maker/shared'
 
 let socket: Socket
 
@@ -27,7 +27,7 @@ export const useGame = () => {
     return (p ? p.actions : []) as PlayerAction[]
   })
 
-  const connect = (host = 'http://10.4.60.151') => {
+  const connect = (host = 'http://127.0.0.1') => {
     socket = io(`${host}:${SERVER_PORT}`, { query: { client: player.value } })
     socket.on(SocketEvent.SYNC_GAME, (g) => { game.value = g })
   }
@@ -64,19 +64,19 @@ export const useGame = () => {
     socket.emit(SocketEvent.RESTART_GAME)
   }
 
-  const action = (a: PlayerAction) => {
+  const action = (a: PlayerAction, dto?: BuildHouseDTO) => {
     if (!socket) { return }
-    socket.emit(SocketEvent.SELECT_ACTION, a)
+    socket.emit(SocketEvent.SELECT_ACTION, { action: a, params: dto })
   }
 
-  const auctionAction = (action: AuctionAction, num?: number) => {
+  const auctionAction = (action: AuctionAction, price?: number) => {
     if (!socket) { return }
-    socket.emit(SocketEvent.AUCTION, { action, num })
+    socket.emit(SocketEvent.AUCTION, { action, params: { price } })
   }
 
   const gridAction = (action: GridAction) => {
     if (!socket) { return }
-    socket.emit(SocketEvent.AUCTION, { action })
+    socket.emit(SocketEvent.GRID_ACTION, { action })
   }
 
   return {

@@ -1,10 +1,12 @@
 import consola from 'consola'
 import { JAIL_BAIL, JAIL_ROUNDS, PlayerAction } from '@poor-guy-maker/shared'
+import { BuildHouseDTO, BuyLandDTO } from 'packages/shared/dto'
 import { isLand, Land } from './land'
 import { Grid } from './grid'
 import { Auction } from './auction'
 import { Game } from './game'
 import { Dice } from './dice'
+import { Chess } from './chess'
 
 export class Player {
   public assets = 1500
@@ -12,20 +14,22 @@ export class Player {
   public position = 0
   public rounds = 0
   public releaseRounds = 0
+  public chess = new Chess()
   public dices: Dice[] = [new Dice(), new Dice()]
-  public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION]
+  public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION, PlayerAction.BUILD_HOUSE, PlayerAction.BUILD_HOTEL]
   public at?: Grid
 
   private _inJail = false
   private _remainingTimes = 1
 
-  public onActions: Record<PlayerAction, (game: Game, player: string, land?: Land, num?: number) => void> = {
-    buy: (_: Game, player: string, land?: Land, num?: number) => {
-      const t = land || this.at
+  public onActions: Record<PlayerAction, (game: Game, player: string, dto?: any) => void> = {
+    buy: (game: Game, player: string, dto?: BuyLandDTO) => {
+      const t = dto?.land ? game.board.grids.find(({ tk }) => tk === dto.land) : this.at
+
       if (!isLand(t)) { return }
       if (t.owner) { return }
 
-      const price = num ?? t.price
+      const price = dto?.price ?? t.price
 
       if (price > this.assets) { return }
 
@@ -40,6 +44,33 @@ export class Player {
       if (!isLand(grid)) { return }
       if (game.auction) { return }
       game.auction = new Auction(game, grid)
+    },
+
+    buildHouse: (game: Game, player: string, { land: l }: BuildHouseDTO) => {
+      if (!this._remainingTimes) { return }
+
+      const land = game.board.grids.find(({ tk }) => tk === l)
+      if (!isLand(land)) { return }
+      if (land.owner !== player) { return }
+      if (land.houses >= land.housesRent.length) { return }
+      if (land.hotelsCost > this.assets) { return }
+
+      this.assets -= land.housesCost
+      land.houses += 1
+    },
+
+    buildHotel: (game: Game, player: string, { land: l }: BuildHouseDTO) => {
+      if (!this._remainingTimes) { return }
+
+      const land = game.board.grids.find(({ tk }) => tk === l)
+      if (!isLand(land)) { return }
+      if (land.owner !== player) { return }
+      if (land.hotels >= land.hotelsRent.length) { return }
+      if (land.houses < land.housesRent.length) { return }
+      if (land.hotelsCost > this.assets) { return }
+
+      this.assets -= land.hotelsCost
+      land.hotels += 1
     }
   }
 

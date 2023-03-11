@@ -30,7 +30,7 @@ export class Auction {
 
       if (last && last.by) {
         const p = game.players[last.by]
-        p.onActions.buy(game, last.by, this.land, last.price)
+        p.onActions.buy(game, last.by, { land: this.land.tk, price: last.price })
       }
 
       game.auction = undefined
