@@ -2,10 +2,10 @@ import { Server } from 'socket.io'
 import consola from 'consola'
 import { SERVER_PORT, SocketEvent } from '@poor-guy-maker/shared'
 import { Game } from '@poor-guy-maker/core'
-import { china } from '@poor-guy-maker/common'
+import { classic } from '@poor-guy-maker/common'
 import { useHandlers } from './src/handlers'
 
-export const game = new Game(china)
+export const game = new Game(classic)
 
 export const io = new Server({ cors: { origin: '*' } })
 

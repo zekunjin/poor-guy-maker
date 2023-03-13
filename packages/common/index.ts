@@ -1,1 +1,1 @@
-export * from './boards/china'
+export * from './boards/classic'

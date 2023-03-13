@@ -14,7 +14,9 @@ defineProps<{
 
 <template>
   <div class="flex flex-col items-center justify-center w-32 py-16 bg-white relative rounded-lg">
-    <div>{{ name }}</div>
+    <div class="text-center">
+      {{ name }}
+    </div>
     <div>
       <span v-if="price">{{ '$' + price }}</span>
     </div>
