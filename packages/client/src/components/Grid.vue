@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-32 py-16 bg-white relative rounded-lg">
+  <div class="flex flex-col items-center justify-center w-32 py-16 bg-white relative rounded-lg flex-shrink-0">
     <div class="text-center">
       {{ name }}
     </div>

@@ -94,7 +94,7 @@ connect()
       </div>
     </template>
 
-    <div class="flex gap-1 p-1 overflow-auto bg-gray-100 rounded-lg">
+    <div class="flex gap-1 p-1 overflow-auto bg-gray-100 rounded-lg overflow-x-auto">
       <Grid
         v-for="item, index in game.board?.grids"
         :key="item.tk"
