@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { GRID_HEIGHT, GRID_WIDTH } from '@/consts'
+
 export interface Player {
   tk: string
   position: number
@@ -13,7 +15,10 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-32 py-16 bg-white relative rounded-lg flex-shrink-0">
+  <div
+    :style="{ width: `${GRID_WIDTH}px`, height: `${GRID_HEIGHT}px` }"
+    class="flex flex-col items-center justify-center bg-white relative rounded-lg flex-shrink-0"
+  >
     <div class="text-center">
       {{ name }}
     </div>
