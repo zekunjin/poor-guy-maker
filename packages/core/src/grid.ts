@@ -8,6 +8,7 @@ export class Grid {
   public tk: string
   public name: string
   public actions: GridAction[] = []
+  public description = ''
   public onActions: Partial<Record<GridAction, any>> = {}
 
   constructor (name: string) {

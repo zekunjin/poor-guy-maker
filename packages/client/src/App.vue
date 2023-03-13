@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { AuctionAction, COLORS } from '@poor-guy-maker/shared'
 import { useGame } from './composables/useGame'
 import Board from './components/Board.vue'
@@ -7,24 +7,16 @@ import Board from './components/Board.vue'
 const num = ref(0)
 const { me, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useGame()
 
-const players = computed(() => {
-  if (!game.value.players) { return [] }
-  const order: string[] = game.value?.order || []
-  return order.map((tk, i) => ({
-    tk,
-    color: COLORS[i],
-    ...game.value.players[tk]
-  }))
-})
-
 connect()
 </script>
 
 <template>
   <div class="flex flex-col gap-2">
-    <div>poor guy maker client</div>
-
     <div>player: {{ player }}</div>
+
+    <div class="flex justify-center">
+      <Board :grids="game.board?.grids || []" :groups="game.board?.groups" />
+    </div>
 
     <div>game actions</div>
 
@@ -93,8 +85,6 @@ connect()
         </button>
       </div>
     </template>
-
-    <Board :grids="game.board?.grids || []" />
 
     <div class="flex flex-col bg-gray-100 gap-1 p-1 w-96 rounded-lg">
       <div v-for="item, index in game.order" :key="item" class="px-4 py-3 bg-white flex items-center gap-2 rounded-lg">

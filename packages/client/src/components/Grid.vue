@@ -9,25 +9,25 @@ export interface Player {
 
 defineProps<{
   name: string
+  color?: string
   price?: number
-  players: Player[]
 }>()
 </script>
 
 <template>
   <div
-    :style="{ width: `${GRID_WIDTH}px`, height: `${GRID_HEIGHT}px` }"
-    class="flex flex-col items-center justify-center bg-white relative rounded-lg flex-shrink-0"
+    class="flex flex-col items-center justify-between bg-white py-4 relative rounded-lg flex-shrink-0 box-border cursor-pointer hover:bg-gray-50 transition-all duration-300"
+    :style="{
+      width: `${GRID_WIDTH}px`,
+      height: `${GRID_HEIGHT}px`,
+      borderTop: `4px solid ${color || 'transparent'}`
+    }"
   >
     <div class="text-center">
       {{ name }}
     </div>
     <div>
       <span v-if="price">{{ '$' + price }}</span>
-    </div>
-
-    <div class="absolute bottom-0 left-0 flex gap-1 p-1">
-      <div v-for="item in players" :key="item.tk" class="w-3 h-3 rounded-full" :style="{ background: item.color }" />
     </div>
   </div>
 </template>

@@ -59,7 +59,7 @@ export class Classic extends Board {
     [lands.orientalAvenue.tk, lands.vermontAvenue.tk, lands.connecticutAvenue.tk],
     [lands.stCharlesPlace.tk, lands.statesAvenue.tk, lands.virginiaAvenue.tk],
     [lands.stJamesPlace.tk, lands.tennesseeAvenue.tk, lands.newYorkAvenue.tk],
-    [lands.indianaAvenue.tk, lands.illinoisAvenue.tk],
+    [lands.kentuckyAvenue.tk, lands.indianaAvenue.tk, lands.illinoisAvenue.tk],
     [lands.atlanticAvenue.tk, lands.ventnorAvenue.tk, lands.marvinGardens.tk],
     [lands.pacificAvenue.tk, lands.northCarolinaAvenue.tk, lands.pennsylvaniaAvenue.tk],
     [lands.parkPlace.tk, lands.boardWalk.tk]
