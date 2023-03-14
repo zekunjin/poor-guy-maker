@@ -18,3 +18,8 @@ export interface AuctionDTO {
   action: AuctionAction,
   params: any
 }
+
+export interface Broadcast<T> {
+  message: string
+  data: T
+}

@@ -1,9 +1,10 @@
 export enum SocketEvent {
+  SYNC_GAME = 'sync game',
+  BROADCAST = 'broadcast',
   ROLL_DICES = 'roll dices',
   START_GAME = 'start game',
   READY_GAME = 'ready game',
   LEAVE_GAME = 'leave game',
-  SYNC_GAME = 'sync game',
   GEN_PLAYER = 'gen player',
   PAUSE_GAME = 'pause game',
   RESTART_GAME = 'restart game',

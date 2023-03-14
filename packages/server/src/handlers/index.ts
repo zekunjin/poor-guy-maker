@@ -3,57 +3,50 @@ import { Socket } from 'socket.io'
 import consola from 'consola'
 import { Game } from '@poor-guy-maker/core'
 import { defineSocketHandler } from '../_utils'
-import { io } from '../..'
 import { useAuctionActions } from './useAuctionActions'
 import { useRollDices } from './useRollDices'
 import { useGridActions } from './useGridActions'
 
-export const useReadyGame = defineSocketHandler(SocketEvent.READY_GAME, (_, game, player) => {
-  game.ready(player)
-  io.emit(SocketEvent.SYNC_GAME, game)
+export const useReadyGame = defineSocketHandler(SocketEvent.READY_GAME, (ctx) => {
+  ctx.game.ready(ctx.player)
 })
 
-export const useLeaveGame = defineSocketHandler(SocketEvent.LEAVE_GAME, (_, game, player) => {
-  game.leave(player)
-  io.emit(SocketEvent.SYNC_GAME, game)
+export const useLeaveGame = defineSocketHandler(SocketEvent.LEAVE_GAME, (ctx) => {
+  ctx.game.leave(ctx.player)
 })
 
-export const useStartGame = defineSocketHandler(SocketEvent.START_GAME, (_, game, player) => {
-  game.start(player)
-  io.emit(SocketEvent.SYNC_GAME, game)
+export const useStartGame = defineSocketHandler(SocketEvent.START_GAME, (ctx) => {
+  ctx.game.start(ctx.player)
 })
 
-export const useEndGame = defineSocketHandler(SocketEvent.PAUSE_GAME, (_, game, player) => {
-  game.pause(player)
-  io.emit(SocketEvent.SYNC_GAME, game)
+export const useEndGame = defineSocketHandler(SocketEvent.PAUSE_GAME, (ctx) => {
+  ctx.game.pause(ctx.player)
 })
 
-export const useRestartGame = defineSocketHandler(SocketEvent.RESTART_GAME, (_, game, player) => {
-  game.restart(player)
-  io.emit(SocketEvent.SYNC_GAME, game)
+export const useRestartGame = defineSocketHandler(SocketEvent.RESTART_GAME, (ctx) => {
+  ctx.game.restart(ctx.player)
 })
 
-export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (_, game) => {
-  game.next()
-  io.emit(SocketEvent.SYNC_GAME, game)
+export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (ctx) => {
+  ctx.game.next()
 })
 
-export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (_, game, player, dto: ActPlayerDTO) => {
-  const act = game.players[player].onActions
+export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (ctx, dto: ActPlayerDTO) => {
+  const act = ctx.game.players[ctx.player].onActions
   if (!act?.[dto.action]) { consola.error(`Do not have action named ${dto.action}`) }
-  act[dto.action](game, player, dto.params)
-  io.emit(SocketEvent.SYNC_GAME, game)
+  act[dto.action](ctx.game, ctx.player, dto.params)
 })
 
 export const useHandlers = (socket: Socket, game: Game, player: string) => {
-  useReadyGame(socket, game, player)
-  useLeaveGame(socket, game, player)
-  useStartGame(socket, game, player)
-  useRollDices(socket, game, player)
-  useEndGame(socket, game, player)
-  useRestartGame(socket, game, player)
-  useNextPlayer(socket, game, player)
-  useSelectAction(socket, game, player)
-  useAuctionActions(socket, game, player)
-  useGridActions(socket, game, player)
+  const ctx = { socket, game, player }
+  useReadyGame(ctx)
+  useLeaveGame(ctx)
+  useStartGame(ctx)
+  useRollDices(ctx)
+  useEndGame(ctx)
+  useRestartGame(ctx)
+  useNextPlayer(ctx)
+  useSelectAction(ctx)
+  useAuctionActions(ctx)
+  useGridActions(ctx)
 }

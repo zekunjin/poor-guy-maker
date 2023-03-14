@@ -1,14 +1,12 @@
 import { GridAction, SocketEvent } from '@poor-guy-maker/shared'
 import { defineSocketHandler } from '../_utils'
-import { io } from '../..'
 
 export interface GridActionDTO {
   action: GridAction
 }
 
-export const useGridActions = defineSocketHandler(SocketEvent.GRID_ACTION, (_, game, p, { action }: GridActionDTO) => {
-  const player = game.players[p]
+export const useGridActions = defineSocketHandler(SocketEvent.GRID_ACTION, (ctx, { action }: GridActionDTO) => {
+  const player = ctx.game.players[ctx.player]
   if (!player) { return }
-  player.at?.onActions[action](game, p)
-  io.emit(SocketEvent.SYNC_GAME, game)
+  player.at?.onActions[action](ctx.game, ctx.player)
 })
