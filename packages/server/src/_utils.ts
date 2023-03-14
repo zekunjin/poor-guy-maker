@@ -3,16 +3,18 @@ import { Socket } from 'socket.io'
 import { Game } from '@poor-guy-maker/core'
 import { io } from '..'
 
-export interface Context {
+export interface Context<T = any> {
   socket: Socket
   game: Game
   player: string
+  params?: T
 }
 
-export const defineSocketHandler = (key: SocketEvent, event: (context: Context, params: any) => any) => (context: Context) => {
+export const defineSocketHandler = (key: SocketEvent, event: (context: Context) => any) => (context: Context) => {
   context.socket.on(key, async (params: any) => {
     if (!context.game) { return }
-    const res = await event(context, params)
+    if (params) { context.params = params }
+    const res = await event(context)
     if (res) { io.emit(SocketEvent.BROADCAST, res) }
     io.emit(SocketEvent.SYNC_GAME, context.game)
   })
