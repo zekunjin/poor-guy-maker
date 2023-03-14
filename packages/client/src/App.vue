@@ -7,6 +7,7 @@ import Chess from './components/Chess.vue'
 import PBtn from './components/PBtn.vue'
 
 const num = ref(0)
+
 const { me, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useGame()
 
 const getGamePlayer = (tk: string) => {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { COLORS } from '@poor-guy-maker/shared'
+import PModal from './PModal.vue'
 import Grid from './Grid.vue'
 import { GRID_GAP, GRID_HEIGHT, GRID_WIDTH } from '@/consts'
 
@@ -14,6 +15,8 @@ const props = withDefaults(defineProps<{
 
 const w = GRID_WIDTH * 11 + GRID_GAP * 12
 const h = GRID_HEIGHT * 11 + GRID_GAP * 12
+
+const visible = ref(false)
 
 const grids = computed(() => {
   if (!props?.grids?.length) { return [[]] }
@@ -37,6 +40,10 @@ const grids = computed(() => {
   }
   return res
 })
+
+const onSelect = (grid: any) => {
+  visible.value = true
+}
 </script>
 
 <template>
@@ -65,6 +72,7 @@ const grids = computed(() => {
             :name="item.name"
             :price="item.price"
             :color="item.color"
+            @click="onSelect(item)"
           />
         </div>
 
@@ -75,6 +83,7 @@ const grids = computed(() => {
             :name="item.name"
             :price="item.price"
             :color="item.color"
+            @click="onSelect(item)"
           />
         </div>
 
@@ -85,6 +94,7 @@ const grids = computed(() => {
             :name="item.name"
             :price="item.price"
             :color="item.color"
+            @click="onSelect(item)"
           />
         </div>
 
@@ -95,9 +105,12 @@ const grids = computed(() => {
             :name="item.name"
             :price="item.price"
             :color="item.color"
+            @click="onSelect(item)"
           />
         </div>
       </div>
     </div>
   </div>
+
+  <PModal v-model:visible="visible" />
 </template>

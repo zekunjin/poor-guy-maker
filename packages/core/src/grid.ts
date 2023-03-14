@@ -10,6 +10,7 @@ export class Grid {
   public actions: GridAction[] = []
   public description = ''
   public onActions: Partial<Record<GridAction, any>> = {}
+  public src = ''
 
   constructor (name: string) {
     this.tk = nanoid()
