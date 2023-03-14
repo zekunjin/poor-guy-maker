@@ -17,7 +17,7 @@ const visible = computed({
 
 <template>
   <PModal v-model:visible="visible">
-    <div class="bg-white rounded-lg w-96 h-[36rem] p-6 flex flex-col" :style="{ borderTop: `4px solid ${color || 'transparent'}` }">
+    <div class="bg-white rounded-lg w-96 h-[36rem] p-6 flex flex-col box-border" :style="{ borderTop: `4px solid ${color || 'transparent'}` }">
       <div class="text-xl font-bold flex gap-4 items-center">
         <div v-if="color" class="w-4 h-4 rounded-full" :style="{ background: color }" />
         <span>{{ name }}</span>
