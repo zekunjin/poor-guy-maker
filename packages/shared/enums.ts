@@ -22,6 +22,7 @@ export enum GameStatus {
 export enum PlayerAction {
   BUY = 'buy',
   AUCTION = 'auction',
+  TRADE = 'trade',
   BUILD_HOUSE = 'buildHouse',
   BUILD_HOTEL = 'buildHotel'
 }

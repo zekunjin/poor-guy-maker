@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { AuctionAction, COLORS } from '@poor-guy-maker/shared'
 import { useGame } from './composables/useGame'
 import Board from './components/Board.vue'
@@ -19,85 +20,89 @@ connect()
   <div class="flex flex-col gap-2">
     <div>player: {{ player }}</div>
 
-    <div class="flex justify-center">
+    <div class="flex gap-2">
       <Board :grids="game.board?.grids || []" :groups="game.board?.groups || []">
         <Chess v-for="tk, index in Object.keys(game.players || {})" :key="tk" :player="getGamePlayer(tk)" :index="index" />
       </Board>
-    </div>
 
-    <div>game actions</div>
+      <div class="flex flex-col gap-2">
+        <div class="flex flex-col bg-gray-100 gap-1 p-1 w-96 rounded-lg">
+          <div v-for="item, index in game.order" :key="item" class="px-4 py-3 bg-white flex items-center gap-2 rounded-lg">
+            <div class="w-3 h-3 rounded-full" :style="{ background: COLORS[index]}" />
+            <span>{{ item === player ? 'me' : item }}</span>
+            <span v-show="index === game.activeIndex">(active)</span>
+          </div>
+        </div>
 
-    <div class="flex gap-2">
-      <PBtn @click="ready">
-        ready
-      </PBtn>
+        <div>game actions</div>
 
-      <PBtn @click="leave">
-        leave
-      </PBtn>
+        <div class="flex gap-2">
+          <PBtn @click="ready">
+            ready
+          </PBtn>
 
-      <PBtn @click="start">
-        start
-      </PBtn>
+          <PBtn @click="leave">
+            leave
+          </PBtn>
 
-      <PBtn @click="pause">
-        pause
-      </PBtn>
+          <PBtn @click="start">
+            start
+          </PBtn>
 
-      <PBtn @click="restart">
-        restart
-      </PBtn>
-    </div>
+          <PBtn @click="pause">
+            pause
+          </PBtn>
 
-    <div>player actions</div>
+          <PBtn @click="restart">
+            restart
+          </PBtn>
+        </div>
 
-    <div class="flex gap-2">
-      <PBtn @click="roll">
-        roll
-      </PBtn>
+        <div>player actions</div>
 
-      <PBtn v-for="item in actions" :key="item" @click="action(item)">
-        {{ item }}
-      </PBtn>
+        <div class="flex gap-2">
+          <PBtn @click="roll">
+            roll
+          </PBtn>
 
-      <PBtn @click="next">
-        next
-      </PBtn>
-    </div>
+          <PBtn @click="next">
+            next
+          </PBtn>
+        </div>
 
-    <div>
-      grid actions
-    </div>
+        <div class="flex gap-2">
+          <PBtn v-for="item in actions" :key="item" @click="action(item)">
+            {{ item }}
+          </PBtn>
+        </div>
 
-    <div class="flex gap-2">
-      <PBtn v-for="item in me?.at?.actions || []" :key="item" @click="gridAction(item)">
-        {{ item }}
-      </PBtn>
-    </div>
+        <div>
+          grid actions
+        </div>
 
-    <template v-if="game.auction">
-      <div>
-        auction actions
-      </div>
+        <div class="flex gap-2">
+          <PBtn v-for="item in me?.at?.actions || []" :key="item" @click="gridAction(item)">
+            {{ item }}
+          </PBtn>
+        </div>
 
-      <div class="flex gap-2">
-        <input v-model="num" type="number">
+        <template v-if="game.auction">
+          <div>
+            auction actions
+          </div>
 
-        <PBtn @click="auctionAction(AuctionAction.BID, num)">
-          bid
-        </PBtn>
+          <div class="flex gap-2">
+            <input v-model="num" type="number">
 
-        <PBtn @click="auctionAction(AuctionAction.SKIP)">
-          skip
-        </PBtn>
-      </div>
-    </template>
+            <PBtn @click="auctionAction(AuctionAction.BID, num)">
+              bid
+            </PBtn>
 
-    <div class="flex flex-col bg-gray-100 gap-1 p-1 w-96 rounded-lg">
-      <div v-for="item, index in game.order" :key="item" class="px-4 py-3 bg-white flex items-center gap-2 rounded-lg">
-        <div class="w-3 h-3 rounded-full" :style="{ background: COLORS[index]}" />
-        <span>{{ item === player ? 'me' : item }}</span>
-        <span v-show="index === game.activeIndex">(active)</span>
+            <PBtn @click="auctionAction(AuctionAction.SKIP)">
+              skip
+            </PBtn>
+          </div>
+        </template>
       </div>
     </div>
 

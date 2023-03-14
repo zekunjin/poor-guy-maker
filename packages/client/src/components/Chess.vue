@@ -31,7 +31,7 @@ const position = computed(() => {
 
   if (gridIndex > 19 && gridIndex < 30) {
     return {
-      x: (gridIndex - 20) * (GRID_WIDTH + GRID_GAP) - GRID_WIDTH / 2,
+      x: (gridIndex - 19) * (GRID_WIDTH + GRID_GAP) - GRID_WIDTH / 2,
       y: GRID_HEIGHT / 2
     }
   }
@@ -39,7 +39,7 @@ const position = computed(() => {
   if (gridIndex > 29 && gridIndex < 40) {
     return {
       x: 11 * (GRID_WIDTH + GRID_GAP) - GRID_WIDTH / 2,
-      y: (gridIndex - 30) * (GRID_HEIGHT + GRID_GAP) - GRID_HEIGHT / 2
+      y: (gridIndex - 29) * (GRID_HEIGHT + GRID_GAP) - GRID_HEIGHT / 2
     }
   }
 

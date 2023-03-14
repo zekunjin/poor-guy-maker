@@ -16,7 +16,8 @@ export class Grid {
     this.name = name
   }
 
-  event (_game: Game, _player: string) {
+  event (game: Game, _player: string) {
+    game.active.at = this
     consola.error('Default grid event should be rewritten')
   }
 

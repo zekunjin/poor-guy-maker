@@ -1,7 +1,7 @@
 import consola from 'consola'
 import { JAIL_BAIL, JAIL_ROUNDS, PlayerAction } from '@poor-guy-maker/shared'
 import { BuildHouseDTO, BuyLandDTO } from 'packages/shared/dto'
-import { isLand, Land } from './land'
+import { isLand } from './land'
 import { Grid } from './grid'
 import { Auction } from './auction'
 import { Game } from './game'
@@ -16,7 +16,7 @@ export class Player {
   public releaseRounds = 0
   public chess = new Chess()
   public dices: Dice[] = [new Dice(), new Dice()]
-  public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION, PlayerAction.BUILD_HOUSE, PlayerAction.BUILD_HOTEL]
+  public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION, PlayerAction.BUILD_HOUSE, PlayerAction.BUILD_HOTEL, PlayerAction.TRADE]
   public at?: Grid
 
   private _inJail = false
@@ -44,6 +44,10 @@ export class Player {
       if (!isLand(grid)) { return }
       if (game.auction) { return }
       game.auction = new Auction(game, grid)
+    },
+
+    trade: (game: Game, player: string) => {
+
     },
 
     buildHouse: (game: Game, player: string, { land: l }: BuildHouseDTO) => {
