@@ -7,7 +7,7 @@ import { GRID_GAP, GRID_HEIGHT, GRID_WIDTH } from '@/consts'
 const props = withDefaults(defineProps<{
   grids: any[]
   groups: any[]
-  scale: number
+  scale?: number
 }>(), {
   scale: 0.6
 })

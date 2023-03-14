@@ -3,6 +3,7 @@ import { AuctionAction, COLORS } from '@poor-guy-maker/shared'
 import { useGame } from './composables/useGame'
 import Board from './components/Board.vue'
 import Chess from './components/Chess.vue'
+import PBtn from './components/PBtn.vue'
 
 const num = ref(0)
 const { me, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useGame()
@@ -27,41 +28,41 @@ connect()
     <div>game actions</div>
 
     <div class="flex gap-2">
-      <button @click="ready">
+      <PBtn @click="ready">
         ready
-      </button>
+      </PBtn>
 
-      <button @click="leave">
+      <PBtn @click="leave">
         leave
-      </button>
+      </PBtn>
 
-      <button @click="start">
+      <PBtn @click="start">
         start
-      </button>
+      </PBtn>
 
-      <button @click="pause">
+      <PBtn @click="pause">
         pause
-      </button>
+      </PBtn>
 
-      <button @click="restart">
+      <PBtn @click="restart">
         restart
-      </button>
+      </PBtn>
     </div>
 
     <div>player actions</div>
 
     <div class="flex gap-2">
-      <button @click="roll">
+      <PBtn @click="roll">
         roll
-      </button>
+      </PBtn>
 
-      <button v-for="item in actions" :key="item" @click="action(item)">
+      <PBtn v-for="item in actions" :key="item" @click="action(item)">
         {{ item }}
-      </button>
+      </PBtn>
 
-      <button @click="next">
+      <PBtn @click="next">
         next
-      </button>
+      </PBtn>
     </div>
 
     <div>
@@ -69,9 +70,9 @@ connect()
     </div>
 
     <div class="flex gap-2">
-      <button v-for="item in me?.at?.actions || []" :key="item" @click="gridAction(item)">
+      <PBtn v-for="item in me?.at?.actions || []" :key="item" @click="gridAction(item)">
         {{ item }}
-      </button>
+      </PBtn>
     </div>
 
     <template v-if="game.auction">
@@ -82,13 +83,13 @@ connect()
       <div class="flex gap-2">
         <input v-model="num" type="number">
 
-        <button @click="auctionAction(AuctionAction.BID, num)">
+        <PBtn @click="auctionAction(AuctionAction.BID, num)">
           bid
-        </button>
+        </PBtn>
 
-        <button @click="auctionAction(AuctionAction.SKIP)">
+        <PBtn @click="auctionAction(AuctionAction.SKIP)">
           skip
-        </button>
+        </PBtn>
       </div>
     </template>
 
