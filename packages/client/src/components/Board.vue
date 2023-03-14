@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { COLORS } from '@poor-guy-maker/shared'
-import PModal from './PModal.vue'
+import GridModal from './GridModal.vue'
 import Grid from './Grid.vue'
 import { GRID_GAP, GRID_HEIGHT, GRID_WIDTH } from '@/consts'
+
+export interface SelectedGrid {
+  name: string
+  color: string
+}
 
 const props = withDefaults(defineProps<{
   grids: any[]
@@ -17,6 +22,7 @@ const w = GRID_WIDTH * 11 + GRID_GAP * 12
 const h = GRID_HEIGHT * 11 + GRID_GAP * 12
 
 const visible = ref(false)
+const selected = ref<Partial<SelectedGrid>>({})
 
 const grids = computed(() => {
   if (!props?.grids?.length) { return [[]] }
@@ -42,6 +48,7 @@ const grids = computed(() => {
 })
 
 const onSelect = (grid: any) => {
+  selected.value = grid
   visible.value = true
 }
 </script>
@@ -112,5 +119,5 @@ const onSelect = (grid: any) => {
     </div>
   </div>
 
-  <PModal v-model:visible="visible" />
+  <GridModal v-model:visible="visible" :name="selected.name" :color="selected.color" />
 </template>
