@@ -8,6 +8,9 @@ import { GRID_GAP, GRID_HEIGHT, GRID_WIDTH } from '@/consts'
 export interface SelectedGrid {
   name: string
   color: string
+  rent: number
+  housesRent: number[] | string[]
+  hotelsRent: number[] | string[]
 }
 
 const props = withDefaults(defineProps<{
@@ -119,5 +122,12 @@ const onSelect = (grid: any) => {
     </div>
   </div>
 
-  <GridModal v-model:visible="visible" :name="selected.name" :color="selected.color" />
+  <GridModal
+    v-model:visible="visible"
+    :name="selected.name"
+    :color="selected.color"
+    :rent="selected.rent"
+    :houses-rent="selected.housesRent"
+    :hotels-rent="selected.hotelsRent"
+  />
 </template>
