@@ -2,7 +2,7 @@ import { SocketEvent, ActPlayerDTO } from '@poor-guy-maker/shared'
 import { Socket } from 'socket.io'
 import consola from 'consola'
 import { Game } from '@poor-guy-maker/core'
-import { Context, defineSocketHandler } from '../_utils'
+import { defineSocketHandler, getParams } from '../_utils'
 import { useAuctionActions } from './useAuctionActions'
 import { useRollDices } from './useRollDices'
 import { useGridActions } from './useGridActions'
@@ -31,11 +31,12 @@ export const useNextPlayer = defineSocketHandler(SocketEvent.NEXT_PLAYER, (ctx) 
   ctx.game.next()
 })
 
-export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (ctx: Context<ActPlayerDTO>) => {
+export const useSelectAction = defineSocketHandler(SocketEvent.SELECT_ACTION, (ctx) => {
+  const params: ActPlayerDTO = getParams(ctx)
   const act = ctx.game.players[ctx.player].onActions
-  if (!ctx.params) { return }
-  if (!act?.[ctx.params.action]) { consola.error(`Do not have action named ${ctx.params.action}`) }
-  act[ctx.params.action](ctx.game, ctx.player, ctx.params.params)
+  if (!params) { return }
+  if (!act?.[params.action]) { consola.error(`Do not have action named ${params.action}`) }
+  act[params.action](ctx.game, ctx.player, params.params)
 })
 
 export const useHandlers = (socket: Socket, game: Game, player: string) => {

@@ -3,11 +3,11 @@ import { Socket } from 'socket.io'
 import { Game } from '@poor-guy-maker/core'
 import { io } from '..'
 
-export interface Context<T = any> {
+export interface Context {
   socket: Socket
   game: Game
   player: string
-  params?: T
+  params?: any
 }
 
 export const defineSocketHandler = (key: SocketEvent, event: (context: Context) => any) => (context: Context) => {
@@ -18,6 +18,10 @@ export const defineSocketHandler = (key: SocketEvent, event: (context: Context) 
     if (res) { io.emit(SocketEvent.BROADCAST, res) }
     io.emit(SocketEvent.SYNC_GAME, context.game)
   })
+}
+
+export const getParams = (ctx: Context) => {
+  return ctx.params || {}
 }
 
 export const defineGurad = (setup: (game: Game, player: string) => Promise<boolean>) => (game: Game, player: string) => {
