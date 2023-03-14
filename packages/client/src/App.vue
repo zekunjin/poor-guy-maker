@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { AuctionAction, COLORS } from '@poor-guy-maker/shared'
 import { useGame } from './composables/useGame'
 import Board from './components/Board.vue'
+import Chess from './components/Chess.vue'
 
 const num = ref(0)
 const { me, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useGame()
+
+const getGamePlayer = (tk: string) => {
+  return game.value?.players?.[tk] || {}
+}
 
 connect()
 </script>
@@ -15,7 +19,9 @@ connect()
     <div>player: {{ player }}</div>
 
     <div class="flex justify-center">
-      <Board :grids="game.board?.grids || []" :groups="game.board?.groups" />
+      <Board :grids="game.board?.grids || []" :groups="game.board?.groups || []">
+        <Chess v-for="tk, index in Object.keys(game.players || {})" :key="tk" :player="getGamePlayer(tk)" :index="index" />
+      </Board>
     </div>
 
     <div>game actions</div>
