@@ -21,7 +21,7 @@ connect()
   <div class="flex flex-col gap-2">
     <div>player: {{ player }}</div>
 
-    <div class="flex gap-2">
+    <div class="flex gap-2 px-2">
       <Board :grids="game.board?.grids || []" :groups="game.board?.groups || []">
         <Chess v-for="tk, index in Object.keys(game.players || {})" :key="tk" :player="getGamePlayer(tk)" :index="index" />
       </Board>

@@ -11,6 +11,8 @@ export interface SelectedGrid {
   rent: number
   housesRent: number[] | string[]
   hotelsRent: number[] | string[]
+  housesCost: number | string
+  hotelsCost: number | string
 }
 
 const props = withDefaults(defineProps<{
@@ -129,5 +131,7 @@ const onSelect = (grid: any) => {
     :rent="selected.rent"
     :houses-rent="selected.housesRent"
     :hotels-rent="selected.hotelsRent"
+    :houses-cost="selected.housesCost"
+    :hotels-cost="selected.hotelsCost"
   />
 </template>
