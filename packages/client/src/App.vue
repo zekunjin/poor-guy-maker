@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { AuctionAction, COLORS } from '@poor-guy-maker/shared'
 import { useGame } from './composables/useGame'
 import Board from './components/Board.vue'
@@ -8,10 +7,10 @@ import PBtn from './components/PBtn.vue'
 
 const num = ref(0)
 
-const { me, game, player, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useGame()
+const { me, game, tk, actions, connect, ready, leave, start, pause, restart, roll, next, action, auctionAction, gridAction } = useGame()
 
-const getGamePlayer = (tk: string) => {
-  return game.value?.players?.[tk] || {}
+const getGamePlayer = (key: string) => {
+  return game.value?.players?.[key] || {}
 }
 
 connect()
@@ -19,18 +18,18 @@ connect()
 
 <template>
   <div class="flex flex-col gap-2">
-    <div>player: {{ player }}</div>
+    <div>player: {{ tk }}</div>
 
     <div class="flex gap-2 px-2">
       <Board :grids="game.board?.grids || []" :groups="game.board?.groups || []">
-        <Chess v-for="tk, index in Object.keys(game.players || {})" :key="tk" :player="getGamePlayer(tk)" :index="index" />
+        <Chess v-for="key, index in Object.keys(game.players || {})" :key="key" :player="getGamePlayer(key)" :index="index" />
       </Board>
 
       <div class="flex flex-col gap-2">
         <div class="flex flex-col bg-gray-100 gap-1 p-1 w-96 rounded-lg">
           <div v-for="item, index in game.order" :key="item" class="px-4 py-3 bg-white flex items-center gap-2 rounded-lg">
             <div class="w-3 h-3 rounded-full" :style="{ background: COLORS[index]}" />
-            <span>{{ item === player ? 'me' : item }}</span>
+            <span>{{ item === tk ? 'me' : item }}</span>
             <span v-show="index === game.activeIndex">(active)</span>
           </div>
         </div>

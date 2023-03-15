@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import Avatar from './Avatar.vue'
 import { GRID_GAP, GRID_HEIGHT, GRID_WIDTH } from '@/consts'
 

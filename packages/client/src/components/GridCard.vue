@@ -35,12 +35,12 @@ const visible = computed({
         </div>
 
         <div class="py-3 px-2 flex flex-col gap-2">
-          <div class="flex items-center justify-between font-bold">
+          <div class="flex items-center justify-between">
             <span>Rent</span>
             <span>{{ '$' + Number(rent || 0) }}</span>
           </div>
 
-          <div class="flex items-center justify-between font-bold">
+          <div class="flex items-center justify-between">
             <span>Rent with color set</span>
             <span>{{ '$' + (Number(rent || 0) * 2) }}</span>
           </div>

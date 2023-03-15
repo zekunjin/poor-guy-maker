@@ -1,4 +1,3 @@
-import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { io, Socket } from 'socket.io-client'
 import { SocketEvent, SERVER_PORT, CLIENT_ID_KEY, PlayerAction, AuctionAction, GridAction, type BuildHouseDTO } from '@poor-guy-maker/shared'
@@ -9,7 +8,7 @@ export const useGame = () => {
   const connected = ref(false)
   const game = ref<any>({})
 
-  const player = ref((() => {
+  const tk = ref((() => {
     const id = localStorage.getItem(CLIENT_ID_KEY)
     if (id) { return id }
 
@@ -19,16 +18,16 @@ export const useGame = () => {
   })())
 
   const me = computed(() => {
-    return game.value?.players?.[player.value]
+    return game.value?.players?.[tk.value]
   })
 
   const actions = computed(() => {
-    const p = game.value?.players?.[player.value]
+    const p = game.value?.players?.[tk.value]
     return (p ? p.actions : []) as PlayerAction[]
   })
 
   const connect = (host = 'http://127.0.0.1') => {
-    socket = io(`${host}:${SERVER_PORT}`, { query: { client: player.value } })
+    socket = io(`${host}:${SERVER_PORT}`, { query: { client: tk.value } })
     socket.on(SocketEvent.SYNC_GAME, (g) => { game.value = g })
   }
 
@@ -81,7 +80,7 @@ export const useGame = () => {
 
   return {
     connected,
-    player,
+    tk,
     game,
     me,
     actions,

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { COLORS } from '@poor-guy-maker/shared'
 import GridCard from './GridCard.vue'
 import Grid from './Grid.vue'
