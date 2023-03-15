@@ -14,7 +14,7 @@ export class Player {
   public position = 0
   public rounds = 0
   public releaseRounds = 0
-  public chess = new Chess()
+  public chess: Chess
   public dices: Dice[] = [new Dice(), new Dice()]
   public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION, PlayerAction.BUILD_HOUSE, PlayerAction.BUILD_HOTEL, PlayerAction.TRADE]
   public at?: Grid
@@ -76,6 +76,10 @@ export class Player {
       this.assets -= land.hotelsCost
       land.hotels += 1
     }
+  }
+
+  constructor (chess?: Chess) {
+    this.chess = chess || new Chess()
   }
 
   beforeRoll (game: Game, _player: string) {

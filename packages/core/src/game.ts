@@ -4,6 +4,7 @@ import { Player } from './player'
 import { shuffle } from './_utils'
 import { Board } from './board'
 import { Auction } from './auction'
+import { Chess } from './chess'
 
 export class Game {
   public players: Record<string, Player> = {}
@@ -11,6 +12,7 @@ export class Game {
   public order: string[] = []
   public rounds = 0
   public auction?: Auction
+  public chesses: Chess[] = []
 
   public board = new Board()
 
@@ -30,7 +32,7 @@ export class Game {
 
     if (this.players[player]) { return }
 
-    this.players[player] = new Player()
+    this.players[player] = new Player(this.chesses.pop())
     consola.success(`Player ${player} is ready.`)
   }
 
