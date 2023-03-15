@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { COLORS } from '@poor-guy-maker/shared'
-import GridModal from './GridModal.vue'
+import GridCard from './GridCard.vue'
 import Grid from './Grid.vue'
 import { GRID_GAP, GRID_HEIGHT, GRID_WIDTH } from '@/consts'
 
@@ -124,7 +124,7 @@ const onSelect = (grid: any) => {
     </div>
   </div>
 
-  <GridModal
+  <GridCard
     v-model:visible="visible"
     :name="selected.name"
     :color="selected.color"
