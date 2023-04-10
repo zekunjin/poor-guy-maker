@@ -84,6 +84,7 @@ importers:
       '@poor-guy-maker/core': workspace:^0.0.1
       '@poor-guy-maker/shared': workspace:^0.0.1
       consola: ^2.15.3
+      jiti: ^1.18.2
       nanoid: ^4.0.1
       socket.io: ^4.6.1
     dependencies:
@@ -93,6 +94,8 @@ importers:
       consola: 2.15.3
       nanoid: 4.0.1
       socket.io: 4.6.1
+    devDependencies:
+      jiti: 1.18.2
 
   packages/shared:
     specifiers: {}
@@ -2800,6 +2803,11 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+    dev: true
+
+  /jiti/1.18.2:
+    resolution: {integrity: sha512-QAdOptna2NYiSSpv0O/BwoHBSmz4YhpzJHyi+fnMRTXFjp7B8i/YG5Z8IfusxB1ufjcD2Sre1F3R+nX3fvy7gg==}
+    hasBin: true
     dev: true
 
   /joycon/3.1.1:
