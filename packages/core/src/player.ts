@@ -19,7 +19,7 @@ export class Player {
   public actions: PlayerAction[] = [PlayerAction.BUY, PlayerAction.AUCTION, PlayerAction.BUILD_HOUSE, PlayerAction.BUILD_HOTEL, PlayerAction.TRADE]
   public at?: Grid
 
-  private _inJail = false
+  private _isInJail = false
   private _remainingTimes = 1
 
   public onActions: Record<PlayerAction, (game: Game, player: string, dto?: any) => void> = {
@@ -152,11 +152,11 @@ export class Player {
   }
 
   get inJail () {
-    return this._inJail
+    return this._isInJail
   }
 
   set inJail (value) {
     if (value) { this.releaseRounds = this.rounds + JAIL_ROUNDS }
-    this._inJail = value
+    this._isInJail = value
   }
 }

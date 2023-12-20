@@ -1,5 +1,5 @@
 export enum SocketEvent {
-  SYNC_GAME = 'sync game',
+  SYNC_GAME = 'GAME:SYNC',
   BROADCAST = 'broadcast',
   ROLL_DICES = 'roll dices',
   START_GAME = 'start game',
